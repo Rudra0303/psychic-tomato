@@ -22,5 +22,5 @@ export const SHOTS = {
   rear: { pos: [-35, 3.2, 8.5], target: [-11, 2.7, -0.5], fov: 32, orbit: 8, dolly: 3, rise: 0.4, m: { pos: [-42, 4.5, 12], target: [-10, 2.6, 0], fov: 46 } },
   top: { pos: [12, 44, 16], target: [-3, 0, 0], fov: 36, orbit: 14, dolly: 6, rise: 0, m: { pos: [6, 58, 10], fov: 52 } },
   far: { pos: [74, 24, -58], target: [-3, 5, 0], fov: 30, orbit: 10, dolly: 10, rise: 4, m: { fov: 46 } },
-  frontLow: { pos: [21, 1.3, -9.5], target: [-1, 3.2, -3.5], fov: 33, orbit: 8, dolly: 3, rise: 0.5, m: { pos: [28, 3, -14], target: [-1, 1.4, 0], fov: 44 } },
+  frontLow: { pos: [22, 1.6, 10.5], target: [-1, 3.2, 3.8], fov: 33, orbit: 8, dolly: 3, rise: 0.5, m: { pos: [28, 3, 14], target: [-1, 1.4, 0], fov: 44 } },
 };
