@@ -1,0 +1,460 @@
+/* ---------- scroll moments ----------
+   Each .moment is a tall scroll section. Its .moment__inner sticks to the viewport while
+   the section scrolls, so text holds still while the camera moves. --len is the section
+   length in viewport heights x100. */
+main {
+  position: relative;
+  z-index: 1;
+  outline: none;
+}
+.moment {
+  position: relative;
+  height: calc(var(--len, 200) * 1vh);
+}
+.moment__inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding: calc(var(--nav-h) + 24px) var(--gutter) calc(96px + env(safe-area-inset-bottom));
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* hidden-until-revealed states (JS adds .is-ready to <html> when the reveal system is live) */
+.js:not(.reduced-motion) [data-reveal],
+.js:not(.reduced-motion) [data-split] {
+  visibility: hidden;
+}
+.js.is-ready [data-reveal],
+.js.is-ready [data-split] {
+  visibility: visible;
+}
+
+/* --- hero --- */
+.moment--hero .moment__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.copy--hero {
+  display: grid;
+  gap: 22px;
+  max-width: min(46rem, 62vw);
+  padding-bottom: 2vh;
+}
+.copy--hero .display {
+  max-width: 13ch;
+}
+.scroll-hint {
+  position: absolute;
+  right: var(--gutter);
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.scroll-hint__line {
+  position: relative;
+  width: 1px;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+}
+.scroll-hint__line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -40%;
+  width: 1px;
+  height: 40%;
+  background: var(--lime);
+  animation: hint 2.2s var(--ease-io) infinite;
+}
+@keyframes hint {
+  to {
+    top: 100%;
+  }
+}
+
+/* --- fragment: two stacked steps in the same place --- */
+.moment--fragment .moment__inner {
+  display: grid;
+  align-items: end;
+}
+.copy--story {
+  grid-area: 1 / 1;
+  display: grid;
+  gap: 18px;
+  max-width: 36rem;
+  align-self: end;
+}
+
+/* --- persona moments --- */
+.moment--persona .moment__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 31rem) minmax(0, 1fr) minmax(0, 23.5rem);
+  grid-template-areas: 'copy . panel';
+  align-items: center;
+  gap: 32px;
+}
+.moment--persona.side-right .moment__inner {
+  grid-template-columns: minmax(0, 23.5rem) minmax(0, 1fr) minmax(0, 31rem);
+  grid-template-areas: 'panel . copy';
+}
+.copy--persona {
+  grid-area: copy;
+  display: grid;
+  gap: 20px;
+  align-content: center;
+}
+.moment__panel {
+  grid-area: panel;
+  perspective: 1400px;
+  display: grid;
+  justify-items: center;
+}
+.points {
+  display: grid;
+  gap: 14px;
+  margin-top: 4px;
+}
+.points li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: var(--text-2);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+.points b {
+  color: #fff;
+  font-weight: 600;
+}
+.points__icon {
+  width: 22px;
+  height: 22px;
+  padding: 4px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--lime-soft);
+  color: var(--lime);
+  stroke-width: 2.5;
+}
+.copy--persona .cta-row {
+  margin-top: 8px;
+}
+
+/* readability scrim behind copy */
+.moment__copy {
+  position: relative;
+}
+.moment__copy::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -18% -30% -18% -40%;
+  background: radial-gradient(closest-side, rgba(4, 10, 18, 0.62), rgba(4, 10, 18, 0.3) 60%, transparent);
+  pointer-events: none;
+}
+.side-right .moment__copy::before {
+  inset: -18% -40% -18% -30%;
+}
+
+/* --- payoff --- */
+.moment--payoff .moment__inner {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+  justify-items: center;
+  text-align: center;
+}
+.payoff__head {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  max-width: 44rem;
+}
+.payoff__flow {
+  align-self: end;
+  width: min(1060px, 100%);
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+.flow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+.flow__rail {
+  position: absolute;
+  top: 37px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: -1;
+}
+.flow__rail i {
+  position: absolute;
+  inset: 0;
+  background: var(--lime);
+  box-shadow: 0 0 14px var(--lime);
+  transform-origin: left;
+  transform: scaleX(var(--flow, 0));
+}
+.flow__step {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 18px 12px 16px;
+  border-radius: 18px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: border-color 0.5s, box-shadow 0.5s;
+}
+.flow__dot {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--navy-900);
+  color: transparent;
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s;
+}
+.flow__dot .icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.6;
+}
+.flow__step b {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: -0.015em;
+}
+.flow__step span:last-child {
+  font-size: 0.82rem;
+  color: var(--text-3);
+}
+.flow__step.is-on {
+  border-color: rgba(166, 242, 74, 0.4);
+}
+.flow__step.is-on .flow__dot {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: var(--ink);
+  box-shadow: 0 0 0 6px rgba(166, 242, 74, 0.14), 0 0 24px rgba(166, 242, 74, 0.5);
+}
+.values {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: min(1060px, 100%);
+  border-top: 1px solid var(--line);
+}
+.values > div {
+  padding: 16px 12px 0;
+  text-align: left;
+}
+.values > div + div {
+  border-left: 1px solid var(--line);
+}
+.values dt {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+.values dt::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  vertical-align: 2px;
+  border-radius: 50%;
+  background: var(--lime);
+}
+.values dd {
+  color: var(--text-2);
+  font-size: 0.9rem;
+}
+
+/* --- statement --- */
+.moment--statement .moment__inner {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.copy--center {
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+}
+.display--statement {
+  font-size: clamp(2.8rem, 7.4vw, 7.2rem);
+  max-width: 12ch;
+}
+.display--statement span:nth-child(2) {
+  color: var(--lime);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .moment--persona .moment__inner,
+  .moment--persona.side-right .moment__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 21rem);
+    grid-template-areas: 'copy panel';
+  }
+}
+
+@media (max-width: 860px) {
+  .moment__inner {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+  .copy--hero {
+    max-width: none;
+    gap: 16px;
+  }
+  .copy--hero .display {
+    font-size: clamp(2.3rem, 10.5vw, 3.4rem);
+  }
+  .copy--hero .lede {
+    font-size: 0.98rem;
+  }
+  .scroll-hint {
+    display: none;
+  }
+  .moment--persona .moment__inner,
+  .moment--persona.side-right .moment__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: 'copy' '.' 'panel';
+    align-items: start;
+    gap: 8px;
+  }
+  .copy--persona {
+    gap: 10px;
+    align-content: start;
+  }
+  .copy--persona .h2 {
+    font-size: clamp(1.7rem, 7.4vw, 2.3rem);
+  }
+  .copy--persona .lede {
+    font-size: 0.92rem;
+  }
+  .points {
+    gap: 6px;
+    margin-top: 0;
+  }
+  .points li {
+    font-size: 0.84rem;
+    line-height: 1.4;
+  }
+  .points li span > :not(b) {
+    display: none;
+  }
+  .points__icon {
+    width: 18px;
+    height: 18px;
+    padding: 3px;
+  }
+  .copy--persona .cta-row {
+    margin-top: 2px;
+  }
+  .copy--persona .btn {
+    --h: 44px;
+    font-size: 0.9rem;
+  }
+  .moment__panel {
+    align-self: end;
+  }
+  .moment__copy::before {
+    inset: -30% -20% -20% -20%;
+  }
+  .copy--story .h2,
+  .payoff__head .h2 {
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+  .copy--story .lede,
+  .payoff__head .lede {
+    font-size: 0.95rem;
+  }
+  .flow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .flow__rail {
+    display: none;
+  }
+  .flow__step {
+    padding: 12px 8px;
+  }
+  .flow__dot {
+    width: 30px;
+    height: 30px;
+  }
+  .flow__step b {
+    font-size: 0.92rem;
+  }
+  .flow__step span:last-child {
+    font-size: 0.74rem;
+  }
+  .values {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .values > div {
+    padding: 10px 8px;
+  }
+  .values > div:nth-child(3) {
+    border-left: 0;
+  }
+  .values dt {
+    font-size: 0.98rem;
+  }
+  .values dd {
+    font-size: 0.78rem;
+  }
+  .moment--payoff .moment__inner {
+    gap: 12px;
+  }
+  .moment--payoff .caption {
+    display: none;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 861px) {
+  .copy--persona {
+    gap: 14px;
+  }
+  .points {
+    gap: 8px;
+  }
+  .moment__panel .panel {
+    zoom: 0.9;
+  }
+}
+
+/* no JS: plain stacked page */
+.no-js .moment {
+  height: auto;
+}
+.no-js .moment__inner {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+}
+.no-js .copy--story {
+  grid-area: auto;
+}
