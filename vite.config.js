@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import { resolve, relative } from 'node:path';
-import fs from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 const root = process.cwd();
@@ -15,11 +14,6 @@ export const PAGES = {
   logistics: 'logistics-providers/index.html',
 };
 
-// Optional truck model. Drop a file at public/assets/truck.glb (or assets/truck.glb)
-// and the scene loads it instead of the procedural truck.
-const GLB_PUBLIC = resolve(root, 'public/assets/truck.glb');
-const GLB_ROOT = resolve(root, 'assets/truck.glb');
-const hasGlb = fs.existsSync(GLB_PUBLIC) || fs.existsSync(GLB_ROOT);
 
 /**
  * Renders the copy in src/content.js into each HTML shell at dev and build time,
@@ -34,18 +28,6 @@ function renderPages() {
       s.watcher.on('change', (file) => {
         if (/src[\\/](content|templates)/.test(file)) s.ws.send({ type: 'full-reload' });
       });
-      // Serve a root-level assets/truck.glb in dev if that is where it lives.
-      if (fs.existsSync(GLB_ROOT) && !fs.existsSync(GLB_PUBLIC)) {
-        s.middlewares.use('/assets/truck.glb', (req, res) => {
-          res.setHeader('Content-Type', 'model/gltf-binary');
-          fs.createReadStream(GLB_ROOT).pipe(res);
-        });
-      }
-    },
-    generateBundle() {
-      if (fs.existsSync(GLB_ROOT) && !fs.existsSync(GLB_PUBLIC)) {
-        this.emitFile({ type: 'asset', fileName: 'assets/truck.glb', source: fs.readFileSync(GLB_ROOT) });
-      }
     },
     transformIndexHtml: {
       order: 'pre',
@@ -69,9 +51,6 @@ function renderPages() {
 export default defineConfig({
   base: './',
   plugins: [renderPages()],
-  define: {
-    __TRUCK_GLB__: JSON.stringify(hasGlb ? 'assets/truck.glb' : ''),
-  },
   build: {
     target: 'es2020',
     chunkSizeWarningLimit: 900,

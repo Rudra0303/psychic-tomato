@@ -1,583 +1,520 @@
 /**
- * HaulerHub site copy. EVERY word on the site lives in this file.
- *
- * Editing tips
- * - Change any string and the dev server reloads the page.
- * - `shot` values name camera positions in src/scene/shots.js.
- * - `anchor` values name points on the truck in src/scene/anchors.js (where a panel's
- *   connector line attaches).
- * - Anything marked PLACEHOLDER must be replaced or confirmed before launch.
- * - Panels are illustrative UI mockups built from simple blocks (see src/templates/panels.js).
- *   All panel values are sample data, not customer data.
+ * HaulerHub site copy. Every word on the site lives here.
+ * Panels (`ui`) are illustrative product UI built from blocks (see src/templates/ui.js).
+ * All UI values are sample data. Items marked PLACEHOLDER must be confirmed before launch.
  */
 
 export const site = {
   name: 'HaulerHub',
-  tagline: 'Where Freight Connects.',
-  // PLACEHOLDER: set to the production domain so social previews resolve.
-  url: 'https://haulerhub.example',
+  tagline: 'Where freight connects.',
+  url: 'https://haulerhub.example', // PLACEHOLDER: production domain
   description:
-    'HaulerHub connects shippers, carriers, drivers, freight forwarders and logistics providers in one shared freight journey, from first requirement to final payment.',
-  ogImage: 'og-image.png',
-  themeColor: '#07111C',
+    'HaulerHub is the connected freight platform for road, rail, sea and air. Shippers, carriers, drivers, forwarders and logistics providers work on one shared shipment record, from first quote to final payment.',
 };
 
 export const links = {
-  // PLACEHOLDER: point these at the real demo booking and sign-up flows.
-  demo: 'mailto:demo@haulerhub.example?subject=HaulerHub%20demo%20request',
-  getStarted: 'mailto:hello@haulerhub.example?subject=Get%20started%20with%20HaulerHub',
+  demo: 'mailto:demo@haulerhub.example?subject=HaulerHub%20demo', // PLACEHOLDER
+  start: 'mailto:hello@haulerhub.example?subject=Get%20started', // PLACEHOLDER
 };
 
 export const nav = {
-  menuLabel: 'Solutions',
-  howItWorks: 'How it works',
-  demo: 'Book a demo',
-  skip: 'Skip to content',
-};
-
-/** Order matters: it is the order of the persona switcher and menus. */
-export const personaOrder = ['shipper', 'carrier', 'driver', 'forwarder', 'logistics'];
-
-export const personas = {
-  shipper: {
-    label: 'Shipper',
-    plural: 'Shippers',
-    slug: 'shippers',
-    menuNote: 'Post loads, compare fit, see every cost',
-    node: 'Shipper',
-  },
-  carrier: {
-    label: 'Carrier',
-    plural: 'Carriers',
-    slug: 'carriers',
-    menuNote: 'Fleets and owner-operators',
-    node: 'Carrier',
-  },
-  driver: {
-    label: 'Driver',
-    plural: 'Drivers',
-    slug: 'drivers',
-    menuNote: 'Trips, proof and support in one app',
-    node: 'Driver',
-  },
-  forwarder: {
-    label: 'Forwarder',
-    plural: 'Freight forwarders',
-    slug: 'forwarders',
-    menuNote: 'Multi-leg, multimodal, cross-border',
-    node: 'Forwarder',
-  },
-  logistics: {
-    label: 'Logistics',
-    plural: 'Logistics providers',
-    slug: 'logistics-providers',
-    menuNote: 'Warehousing, customs, agents, services',
-    node: 'Logistics provider',
-  },
-};
-
-/* ------------------------------------------------------------------------------------------
- * Illustrative product UI panels. Block types: header, route, fields, chips, checks, steps,
- * legs, breakdown, alert, actions, map, chat, slots, meter. See src/templates/panels.js.
- * ---------------------------------------------------------------------------------------- */
-const caption = 'Illustrative interface · sample data';
-
-export const panels = {
-  shipperPost: {
-    label: 'Load posting',
-    caption,
-    blocks: [
-      { type: 'header', title: 'New load', meta: 'LD-20418 · Draft', status: { label: 'Ready to post', tone: 'lime' } },
-      { type: 'route', from: { city: 'Joliet, IL', sub: 'Pickup · Nov 12, 08:00–10:00' }, to: { city: 'Columbus, OH', sub: 'Delivery · Nov 13 by 14:00' }, meta: '355 mi' },
-      { type: 'fields', items: [['Equipment', "53' dry van"], ['Weight', '38,500 lb'], ['Commodity', 'Packaged goods'], ['Handling', 'Floor-loaded']] },
-      { type: 'chips', items: ['Appointment required', 'No hazmat', 'Dock high', 'Seal on departure'] },
-      { type: 'steps', title: 'Qualifying capacity', items: [{ label: 'Equipment', state: 'done' }, { label: 'Authority', state: 'done' }, { label: 'Lane', state: 'done' }, { label: 'Availability', state: 'active' }] },
-      { type: 'actions', items: [{ label: 'Save draft' }, { label: 'Post load', primary: true }] },
-    ],
-  },
-  shipperMatches: {
-    label: 'Qualified providers',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Qualified providers', meta: 'LD-20418 · 4 eligible', status: { label: 'Explained', tone: 'blue' } },
-      { type: 'checks', title: 'Why Northline Freight fits', items: [{ label: "53' dry van registered", state: 'done' }, { label: 'Authority and cargo insurance on file', state: 'done' }, { label: 'Runs Joliet → Columbus weekly', state: 'done' }, { label: 'Confirm dock appointment', state: 'warn' }] },
-      { type: 'breakdown', rows: [['Provider charge', '$1,450.00'], ['Shipper fee', '$101.50'], ['Accessorials', 'None yet']], total: ['Total before booking', '$1,551.50'] },
-      { type: 'actions', items: [{ label: 'Compare 3 more' }, { label: 'Agree and book', primary: true }] },
-    ],
-  },
-  shipperTrack: {
-    label: 'Live tracking',
-    caption,
-    blocks: [
-      { type: 'header', title: 'In transit', meta: 'LD-20418 · Northline Freight', status: { label: 'On plan', tone: 'lime' } },
-      { type: 'map', progress: 0.62, from: 'Joliet', to: 'Columbus', eta: 'ETA 13:20' },
-      { type: 'legs', items: [{ label: 'Picked up · seal 4471902', note: 'Nov 12 · 08:42', state: 'done' }, { label: 'Crossed into Indiana', note: '10:15', state: 'done' }, { label: 'Delivery appointment', note: 'Nov 13 · 14:00', state: 'active' }] },
-      { type: 'alert', tone: 'blue', title: 'ETA updated', body: 'Weather near Indianapolis. New ETA shared with the receiver.' },
-    ],
-  },
-
-  carrierMatch: {
-    label: 'Bid and book',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Load fits your fleet', meta: 'Joliet → Columbus · 355 mi', status: { label: 'Match', tone: 'lime' } },
-      { type: 'checks', title: 'Why it fits', items: [{ label: "Equipment: 53' dry van, unit 214", state: 'done' }, { label: 'Lane: in your preferred network', state: 'done' }, { label: 'Credentials: all current', state: 'done' }, { label: 'Pickup window: confirm by 16:00', state: 'warn' }] },
-      { type: 'breakdown', rows: [['Your rate', '$1,450.00'], ['Est. cost to run', '−$1,012.00'], ['Provider fee', '−$101.50']], total: ['Est. margin', '$336.50'] },
-      { type: 'actions', items: [{ label: 'Counter offer' }, { label: 'Accept and book', primary: true }] },
-    ],
-  },
-  carrierDispatch: {
-    label: 'Dispatch board',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Dispatch', meta: 'Today · 6 units', status: { label: '2 need a driver', tone: 'amber' } },
-      { type: 'legs', items: [{ label: 'Unit 214 · M. Alvarez', note: 'LD-20418 · Joliet → Columbus', state: 'done' }, { label: 'Unit 208 · R. Okafor', note: 'LD-20433 · Gary → Detroit', state: 'done' }, { label: 'Unit 221 · Unassigned', note: 'LD-20440 · Aurora → St. Louis', state: 'warn' }] },
-      { type: 'meter', label: 'Fleet capacity booked this week', value: 0.74, note: '74%' },
-      { type: 'actions', items: [{ label: 'View lanes' }, { label: 'Assign driver', primary: true }] },
-    ],
-  },
-  carrierSettle: {
-    label: 'Invoice and settlement',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Invoice INV-7731', meta: 'LD-20418 · Delivered', status: { label: 'Approved', tone: 'lime' } },
-      { type: 'checks', title: 'Evidence attached', items: [{ label: 'Signed proof of delivery', state: 'done' }, { label: '4 condition photos', state: 'done' }, { label: 'Detention: 1h approved by shipper', state: 'done' }] },
-      { type: 'breakdown', rows: [['Linehaul', '$1,450.00'], ['Detention (approved)', '$75.00'], ['Provider fee', '−$106.75']], total: ['Net to you', '$1,418.25'] },
-      { type: 'steps', items: [{ label: 'Submitted', state: 'done' }, { label: 'Reconciled', state: 'done' }, { label: 'Paid', state: 'active' }] },
-    ],
-  },
-
-  driverTrip: {
-    label: 'Driver app',
-    variant: 'phone',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Today’s trip', meta: 'LD-20418 · Unit 214', status: { label: 'Checked in', tone: 'lime' } },
-      { type: 'legs', items: [{ label: 'Joliet DC · Dock 14', note: 'Pickup 08:30 · ref PO-55120', state: 'done' }, { label: 'Columbus DC · Door 3', note: 'Deliver by 14:00 tomorrow', state: 'active' }] },
-      { type: 'fields', items: [['Drive time left', '6h 40m'], ['Next break', 'in 2h 10m']] },
-      { type: 'checks', items: [{ label: 'Seal 4471902 photographed', state: 'done' }, { label: 'Bill of lading signed', state: 'done' }, { label: 'Cargo photos 3 of 4', state: 'active' }] },
-      { type: 'actions', items: [{ label: 'Capture proof', primary: true }] },
-    ],
-  },
-  driverProof: {
-    label: 'Proof of delivery',
-    variant: 'phone',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Deliver', meta: 'Columbus DC · Door 3', status: { label: 'Arrived 13:12', tone: 'blue' } },
-      { type: 'checks', title: 'Before you close the trip', items: [{ label: 'Seal intact: 4471902', state: 'done' }, { label: 'Receiver signature', state: 'done' }, { label: 'Condition photos 4 of 4', state: 'done' }, { label: 'Shortage or damage', state: 'none', note: 'None reported' }] },
-      { type: 'actions', items: [{ label: 'Close trip', primary: true }] },
-    ],
-  },
-  driverSupport: {
-    label: 'Report a problem',
-    variant: 'phone',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Trip chat', meta: 'Dispatch · Shipper · Receiver', status: { label: 'Shared', tone: 'lime' } },
-      { type: 'chat', items: [{ from: 'You', text: 'Dock 14 is blocked. Told to wait 45 min.', me: true }, { from: 'Dispatch', text: 'Logged as a delay. Detention clock started.' }, { from: 'Shipper', text: 'Moving you to Dock 9. 10 minutes.' }] },
-      { type: 'actions', items: [{ label: 'Add photo' }, { label: 'Send update', primary: true }] },
-    ],
-  },
-
-  forwarderJourney: {
-    label: 'Documents and customs',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Journey FJ-3302', meta: 'Chicago → Tashkent · 4 legs', status: { label: 'Docs 4 of 6', tone: 'amber' } },
-      { type: 'legs', items: [{ label: 'Road · Chicago → New York', note: 'Delivered to port', state: 'done' }, { label: 'Ocean · New York → Istanbul', note: 'In transit', state: 'active' }, { label: 'Road · Istanbul → Baku', note: 'Agent confirmed', state: 'pending' }, { label: 'Customs · Tashkent', note: 'Awaiting certificate', state: 'warn' }] },
-      { type: 'checks', title: 'Trade documents', items: [{ label: 'Commercial invoice', state: 'done' }, { label: 'Bill of lading', state: 'done' }, { label: 'Certificate of origin', state: 'warn' }] },
-    ],
-  },
-  forwarderDocs: {
-    label: 'Procurement',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Tender · Leg 3', meta: 'Istanbul → Baku · road', status: { label: '3 offers', tone: 'blue' } },
-      { type: 'breakdown', rows: [['Agent A · 6 days', '$4,180'], ['Agent B · 5 days', '$4,420'], ['Agent C · 7 days', '$3,960']], total: ['Selected', 'Agent B'] },
-      { type: 'checks', items: [{ label: 'Operates in both jurisdictions', state: 'done' }, { label: 'Cargo insurance confirmed', state: 'done' }, { label: 'Handoff evidence required', state: 'done' }] },
-      { type: 'actions', items: [{ label: 'Compare' }, { label: 'Confirm leg', primary: true }] },
-    ],
-  },
-  forwarderDelay: {
-    label: 'Exception impact',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Vessel delayed', meta: 'Leg 2 · New York → Istanbul', status: { label: '+2 days', tone: 'amber' } },
-      { type: 'alert', tone: 'amber', title: '2 later legs affected', body: 'Road pickup in Istanbul and Tashkent customs appointment need new dates.' },
-      { type: 'legs', items: [{ label: 'Istanbul pickup', note: 'Nov 21 → Nov 23 · agent notified', state: 'done' }, { label: 'Customs slot', note: 'Rebook requested', state: 'active' }, { label: 'Revised cost', note: '+$180 storage · awaiting approval', state: 'warn' }] },
-      { type: 'actions', items: [{ label: 'Review' }, { label: 'Confirm new plan', primary: true }] },
-    ],
-  },
-
-  providerOrder: {
-    label: 'Work order and evidence',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Cross-dock WO-118', meta: 'Joliet, IL · LD-20418', status: { label: 'In progress', tone: 'blue' } },
-      { type: 'checks', title: 'Agreed scope', items: [{ label: 'Unload and count · 26 pallets', state: 'done' }, { label: 'Re-label for Columbus DC', state: 'done' }, { label: 'Load out to carrier', state: 'active' }] },
-      { type: 'legs', items: [{ label: 'Inbound handoff', note: '08:42 · 26 pallets · photos', state: 'done' }, { label: 'Outbound handoff', note: 'Door 6 · 11:30', state: 'pending' }] },
-      { type: 'actions', items: [{ label: 'Add evidence' }, { label: 'Invoice', primary: true }] },
-    ],
-  },
-  providerSlots: {
-    label: 'Appointments',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Dock schedule', meta: 'Thu · Joliet cross-dock', status: { label: '3 open', tone: 'lime' } },
-      { type: 'slots', items: [{ time: '07:00', state: 'busy' }, { time: '08:30', state: 'mine' }, { time: '10:00', state: 'open' }, { time: '11:30', state: 'busy' }, { time: '13:00', state: 'open' }, { time: '14:30', state: 'open' }] },
-      { type: 'fields', items: [['Doors', '8 of 12 in use'], ['Labor', '2 crews']] },
-      { type: 'actions', items: [{ label: 'Block time' }, { label: 'Confirm slot', primary: true }] },
-    ],
-  },
-  providerInvoice: {
-    label: 'Service invoice',
-    caption,
-    blocks: [
-      { type: 'header', title: 'Invoice SV-2290', meta: 'WO-118 · Cross-dock', status: { label: 'Matched to scope', tone: 'lime' } },
-      { type: 'breakdown', rows: [['Handling · 26 pallets', '$468.00'], ['Re-labeling', '$130.00'], ['Storage (approved)', '$60.00']], total: ['Invoice total', '$658.00'] },
-      { type: 'steps', items: [{ label: 'Evidence', state: 'done' }, { label: 'Approved', state: 'done' }, { label: 'Paid', state: 'active' }] },
-    ],
-  },
-};
-
-/* ------------------------------------------------------------------------------------------
- * Landing page: "One shipment, one journey"
- * ---------------------------------------------------------------------------------------- */
-export const landing = {
-  meta: {
-    title: 'HaulerHub · Where Freight Connects',
-    description: site.description,
-  },
-  hero: {
-    shot: 'hero',
-    eyebrow: 'The connected freight platform',
-    title: ['Many parties move freight.', 'HaulerHub makes them work as one.'],
-    body: 'Shippers, carriers, drivers, forwarders and logistics providers on one shared journey. From first requirement to final payment.',
-    primary: { label: 'Book a demo', href: 'demo' },
-    secondary: { label: 'See how it works', href: '#fragment' },
-    scrollHint: 'Scroll to follow the load',
-  },
-  fragment: {
-    shot: 'wide',
-    shotB: 'connect',
-    a: {
-      eyebrow: 'The problem',
-      title: 'Freight touches many hands. Rarely the same picture.',
-      body: 'Calls, emails, portals and spreadsheets. Every handoff is a place where status, documents and costs drift apart.',
-    },
-    b: {
-      eyebrow: 'The HaulerHub way',
-      title: 'One shipment record. Every party connected.',
-      body: 'Requirements, responsibilities, milestones, documents and costs stay together. Access follows each participant’s role.',
-    },
-  },
-  // One moment per persona. Panel ids reference `panels` above.
-  personas: {
-    shipper: {
-      shot: 'side',
-      anchor: 'trailerMid',
-      side: 'left',
-      eyebrow: 'For shippers',
-      title: 'Your freight. Your visibility.',
-      points: [
-        ['Post once, in full detail.', 'Lanes, dates, equipment, temperature, hazmat and site access in one load brief.'],
-        ['See why a provider fits.', 'Qualified matches arrive with their reasons, not just a rate.'],
-        ['Know the total before you book.', 'Provider charge, fees, accessorials and terms, side by side.'],
-      ],
-      cta: { label: 'Post a load', page: 'shipper' },
-      panel: 'shipperPost',
-    },
-    carrier: {
-      shot: 'rearQuarter',
-      anchor: 'trailerRear',
-      side: 'right',
-      eyebrow: 'For carriers and owner-operators',
-      title: 'Build a stronger freight business.',
-      points: [
-        ['Freight that fits your fleet.', 'Loads matched to your equipment, lanes, credentials and capacity.'],
-        ['Price on your real costs.', 'Know your cost to run before you bid. Set your own accessorial rules.'],
-        ['Book, dispatch, get paid.', 'Accept terms, assign a driver and invoice from the same record.'],
-      ],
-      cta: { label: 'Find freight', page: 'carrier' },
-      panel: 'carrierMatch',
-    },
-    driver: {
-      shot: 'cab',
-      anchor: 'door',
-      side: 'left',
-      eyebrow: 'For drivers',
-      title: 'A clearer day on the road.',
-      points: [
-        ['The whole trip in your pocket.', 'Assignment, facility instructions, references and hours-aware planning.'],
-        ['Proof in a few taps.', 'Seals, photos, signatures and cargo condition at every stop.'],
-        ['Problems reach the right people.', 'Report a delay once. Dispatch, shipper and receiver all see it.'],
-      ],
-      cta: { label: 'Start driving with HaulerHub', page: 'driver' },
-      panel: 'driverTrip',
-    },
-    forwarder: {
-      shot: 'port',
-      anchor: 'roof',
-      side: 'right',
-      eyebrow: 'For freight forwarders',
-      title: 'Global complexity. Clear control.',
-      points: [
-        ['Design the whole journey.', 'Multi-leg, multimodal moves with a clear owner for every leg.'],
-        ['Documents ready before the border.', 'Trade documents and customs readiness tracked leg by leg.'],
-        ['See what a delay changes.', 'When one leg slips, see the impact downstream and confirm the new plan.'],
-      ],
-      cta: { label: 'Plan a journey', page: 'forwarder' },
-      panel: 'forwarderJourney',
-    },
-    logistics: {
-      shot: 'rear',
-      anchor: 'rearDoors',
-      side: 'left',
-      eyebrow: 'For logistics providers',
-      title: 'Your expertise. A connected network.',
-      points: [
-        ['A storefront for what you really do.', 'Warehousing, customs, agent and specialist services, by area and capability.'],
-        ['Scope and price agreed upfront.', 'Receive suitable work. Confirm scope and rates before anything moves.'],
-        ['Evidence that closes the loop.', 'Capture each handoff, then invoice from the same record.'],
-      ],
-      cta: { label: 'List your services', page: 'logistics' },
-      panel: 'providerOrder',
-    },
-  },
-  payoff: {
-    shot: 'top',
-    eyebrow: 'Delivery',
-    title: 'Delivered. Proven. Paid.',
-    body: 'Proof of delivery, reconciliation and payment confirmed in one flow. Nobody chasing paperwork.',
-    flow: [
-      { label: 'Delivered', note: 'Columbus DC · 13:12' },
-      { label: 'Proof verified', note: 'Signature, seal, 4 photos' },
-      { label: 'Charges reconciled', note: 'Approved items only' },
-      { label: 'Payment confirmed', note: 'Every party notified' },
-    ],
-    flowCaption: 'Illustrative flow · sample data',
-    values: [
-      ['Clarity', 'Everyone knows what happens next.'],
-      ['Control', 'Approval before consequence.'],
-      ['Transparency', 'See the rate. See the fees.'],
-      ['Confidence', 'Evidence at every handoff.'],
-    ],
-  },
-  statement: {
-    shot: 'far',
-    title: ['One load.', 'Every party.', 'One system.'],
-    body: 'Less friction. More forward.',
-    primary: { label: 'Book a demo', href: 'demo' },
-  },
-  closing: {
-    eyebrow: 'Start where you work',
-    title: 'Built for your role. Ready when you are.',
-    body: 'Pick your seat in the journey. Every role gets its own tools on the same shared record.',
-    cards: {
-      shipper: { title: 'Ship with full visibility', cta: 'Post a load' },
-      carrier: { title: 'Fill your trucks with freight that fits', cta: 'Find freight' },
-      driver: { title: 'Run a clearer day on the road', cta: 'Get the driver app' },
-      forwarder: { title: 'Control every leg of the journey', cta: 'Plan a journey' },
-      logistics: { title: 'Plug your services into the network', cta: 'List your services' },
-    },
-    demo: { title: 'Run a fleet or a freight team?', body: 'See HaulerHub on your own lanes and workflows.', cta: 'Book a demo' },
-  },
-};
-
-/** Shown in the capabilities strip on every page. */
-export const capabilities = {
-  title: 'Powerful underneath. Simple on the surface.',
   items: [
-    ['Capability-based matching', 'Qualify first. Rank second.'],
-    ['Configurable pricing', 'Rates, fees and accessorials in view.'],
-    ['Visibility and exceptions', 'See the next step and who owns it.'],
-    ['Documents and evidence', 'Proof attached to every handoff.'],
-    ['Permissions and governance', 'Access follows each role.'],
-    ['Integration architecture', 'Built to connect your systems.'],
+    ['Product', '#product'],
+    ['How it connects', '#network'],
+    ['Journey', '#journey'],
+    ['Platform', '#platform'],
   ],
-  // PLACEHOLDER figures: catalog counts as stated on the current site. Confirm before launch.
-  figures: [
-    { value: 21, label: 'Connected services' },
-    { value: 13, label: 'Equipment categories' },
-    { value: 5, label: 'Roles, one platform' },
-    { value: 1, label: 'Shared shipment record' },
+  roles: 'Roles',
+  demo: 'Book a demo',
+  menu: 'Menu',
+  close: 'Close',
+  ticker: 'One shipment record · Road · Rail · Sea · Air · Every party connected · ',
+};
+
+export const roleOrder = ['shipper', 'carrier', 'driver', 'forwarder', 'logistics'];
+
+export const roles = {
+  shipper: { label: 'Shippers', short: 'Shipper', slug: 'shippers', line: 'Post once. See who qualifies and why.', thumb: 'shipper', station: 4 },
+  carrier: { label: 'Carriers', short: 'Carrier', slug: 'carriers', line: 'Freight that fits your fleet.', thumb: 'carrier', station: 0 },
+  driver: { label: 'Drivers', short: 'Driver', slug: 'drivers', line: 'A clearer day on the road.', thumb: 'driver', station: 0 },
+  forwarder: { label: 'Freight forwarders', short: 'Forwarder', slug: 'forwarders', line: 'Global complexity. Clear control.', thumb: 'forwarder', station: 2 },
+  logistics: { label: 'Logistics providers', short: 'Logistics', slug: 'logistics-providers', line: 'Your expertise. A connected network.', thumb: 'logistics', station: 1 },
+};
+
+/* ------------------------------------------------------------------ loader */
+export const loader = {
+  words: ['Road', 'Rail', 'Sea', 'Air', 'One record'],
+};
+
+/* ------------------------------------------------------------------ hero (product first) */
+export const hero = {
+  eyebrow: 'The connected freight platform',
+  title: ['Every mode. Every party.', 'One shipment record.'],
+  body: 'HaulerHub connects shippers, carriers, drivers, forwarders and logistics providers on one shared record, across road, rail, sea and air, from first quote to final payment.',
+  primary: 'Book a demo',
+  secondary: 'See how it connects',
+  // The app composition shown in the hero (illustrative, sample data)
+  app: {
+    id: 'HH-20418',
+    route: ['Chicago, IL', 'Tashkent, UZ'],
+    status: 'In transit · Leg 2 of 4',
+    nav: ['Shipments', 'Marketplace', 'Documents', 'Settlement', 'Partners'],
+    legs: [
+      ['road', 'Road', 'Chicago → New York', 'Delivered', 'done'],
+      ['sea', 'Ocean', 'New York → Istanbul', 'ETA Nov 21', 'active'],
+      ['rail', 'Rail', 'Istanbul → Baku', 'Booked', 'pending'],
+      ['air', 'Air', 'Baku → Tashkent', 'Docs 4 of 6', 'pending'],
+    ],
+    parties: [
+      ['Shipper', 'Acme Retail', 'Owner'],
+      ['Forwarder', 'Atlas Forwarding', 'Plans the journey'],
+      ['Carrier', 'Northline Freight', 'Leg 1 · done'],
+      ['Ocean line', 'Blue Meridian', 'Leg 2 · in transit'],
+      ['Terminal', 'Port of Istanbul', 'Leg 3 · ready'],
+    ],
+    docs: [['Bill of lading', 'done'], ['Commercial invoice', 'done'], ['Certificate of origin', 'warn']],
+    cost: [['Agreed', '$18,420'], ['Approved extras', '$180'], ['Paid to date', '$6,120']],
+    floats: {
+      match: { tag: 'Match explained', title: 'Northline Freight fits', items: ["53' dry van", 'Authority on file', 'Lane run weekly'] },
+      toast: { tag: 'Driver app', title: 'Seal 4471902 photographed', meta: 'Joliet DC · 08:42' },
+      paid: { tag: 'Settlement', title: 'Invoice approved', meta: 'Proof attached · $1,418.25' },
+    },
+    caption: 'Illustrative interface · sample data',
+  },
+};
+
+/* ------------------------------------------------------------------ problem → record */
+export const problem = {
+  eyebrow: 'The problem',
+  title: ['Freight runs on systems', 'that never spoke.'],
+  body: 'A single international move touches a dozen companies. Each keeps its own version of the truth in calls, emails, spreadsheets, PDFs and portals.',
+  fragments: [
+    ['mail', 'Re: Re: FW: pickup time??', 'Dispatch · 7 replies'],
+    ['call', 'Missed call · Carrier', 'Driver at the wrong dock'],
+    ['sheet', 'loads_final_v7.xlsx', 'Edited by 4 people'],
+    ['pdf', 'BOL_scan_002.pdf', 'Unsigned'],
+    ['chat', '“Is the container on the vessel?”', 'Forwarder · 2 days ago'],
+    ['portal', 'Carrier portal', 'Password expired'],
+    ['mail', 'Invoice dispute #3302', 'Detention not approved'],
+    ['chat', '“Who has the customs docs?”', 'Agent · unanswered'],
   ],
-  figuresNote: 'Placeholder figures: catalog counts to confirm before launch.',
+  after: {
+    eyebrow: 'The HaulerHub way',
+    title: ['One shipment record.', 'Every party connected.'],
+    body: 'Requirements, responsibilities, milestones, documents and costs in one place. Every party sees what their role needs, and nobody chases anyone.',
+    figures: [
+      { value: 4, label: 'Transport modes' },
+      { value: 5, label: 'Roles on one platform' },
+      { value: 21, label: 'Connected services' },
+      { value: 1, label: 'Shared shipment record' },
+    ],
+    figuresNote: 'Catalog figures. PLACEHOLDER: confirm before launch.',
+  },
+};
+
+/* ------------------------------------------------------------------ network (3D explanation) */
+export const network = {
+  eyebrow: 'How it connects',
+  title: ['Watch the platform', 'connect every handoff.'],
+  hint: 'Scroll to travel the network',
+  stations: [
+    {
+      key: 'road',
+      label: 'Road',
+      caption: 'Full truckload, LTL, drayage and last mile.',
+      parties: ['Shipper', 'Carrier', 'Driver', 'Warehouse'],
+      does: ['Matches the load to carriers that qualify, and shows why', 'Sends the driver trip, dock and reference details', 'Captures pickup proof the moment it happens'],
+      hotspots: [
+        {
+          role: 'carrier',
+          tag: 'For carriers',
+          title: 'Freight that fits your fleet',
+          chips: ['Equipment-matched', 'Clear terms'],
+          text: 'Loads matched to your equipment, lanes, credentials and capacity, with the reason each one fits.',
+          rows: [['Matching', 'Qualify first, rank second'], ['Pricing', 'Your rates and rules'], ['Settlement', 'Invoices with proof']],
+        },
+        {
+          role: 'driver',
+          tag: 'For drivers',
+          title: 'A clearer day on the road',
+          chips: ['Hours-aware', 'Proof in a tap'],
+          text: 'Trip, dock instructions and references before you roll. Seals, photos and signatures at every stop.',
+          rows: [['Trip plan', 'Hours-aware'], ['Evidence', 'Photos, seals, signatures'], ['Support', 'One channel, right people']],
+        },
+      ],
+    },
+    {
+      key: 'rail',
+      label: 'Rail',
+      caption: 'Rail and intermodal legs in the same plan.',
+      parties: ['Carrier', 'Terminal', 'Rail operator', 'Forwarder'],
+      does: ['Hands the container from road to rail with custody evidence', 'Books terminal slots against the same shipment', 'Shows the next owner before the handoff, not after'],
+      hotspots: [
+        {
+          role: 'logistics',
+          tag: 'For logistics providers',
+          title: 'Your expertise, connected',
+          chips: ['Terminals & yards', 'Scope agreed upfront'],
+          text: 'Terminals, yards, warehouses and agents plug into full shipment plans and receive work that fits.',
+          rows: [['Storefront', 'Services by area'], ['Handoffs', 'Evidence at every exchange'], ['Invoicing', 'Matched to agreed scope']],
+        },
+        {
+          role: null,
+          tag: 'Platform',
+          title: 'Intermodal in one plan',
+          chips: ['Relay', 'Transload'],
+          text: 'Road, rail and terminal legs live on the same shipment record, each with an owner and a handoff.',
+          rows: [['Legs', 'Road, rail, terminal'], ['Ownership', 'One owner per leg'], ['Milestones', 'Shared with every party']],
+        },
+      ],
+    },
+    {
+      key: 'sea',
+      label: 'Sea',
+      caption: 'Ocean freight with every leg accounted for.',
+      parties: ['Forwarder', 'Ocean line', 'Port', 'Customs broker'],
+      does: ['Tracks bills of lading and customs readiness per leg', 'Shares vessel ETAs with every party on the shipment', 'Shows downstream impact when a sailing slips'],
+      hotspots: [
+        {
+          role: 'forwarder',
+          tag: 'For forwarders',
+          title: 'Global complexity. Clear control.',
+          chips: ['Multi-leg', 'Jurisdiction-aware'],
+          text: 'Design multimodal journeys, procure each leg and see what a delay changes downstream.',
+          rows: [['Journey', 'Every leg has an owner'], ['Procurement', 'Agents on equal terms'], ['Recovery', 'Confirm the new plan']],
+        },
+        {
+          role: null,
+          tag: 'Platform',
+          title: 'Documents before the border',
+          chips: ['Customs', 'Trade documents'],
+          text: 'Invoices, bills of lading and certificates tracked leg by leg, ready before arrival.',
+          rows: [['Readiness', 'Per leg, per border'], ['Custody', 'Signed at every handoff'], ['Access', 'Shaped by role']],
+        },
+      ],
+    },
+    {
+      key: 'air',
+      label: 'Air',
+      caption: 'When it cannot wait, it flies.',
+      parties: ['Forwarder', 'Airline', 'Ground handler', 'Agent'],
+      does: ['Adds an air leg without starting a new shipment', 'Carries the same documents and references forward', 'Gets revised costs approved before they land'],
+      hotspots: [
+        {
+          role: null,
+          tag: 'Platform',
+          title: 'A delay changes the plan. Everyone sees how.',
+          chips: ['Impact', 'Recovery'],
+          text: 'When one leg slips, the impact on every later leg is visible, and the new plan is confirmed in one place.',
+          rows: [['Detect', 'Exceptions with an owner'], ['Coordinate', 'Every party notified'], ['Confirm', 'Revised costs approved']],
+        },
+        {
+          role: null,
+          tag: 'Platform',
+          title: 'One live picture',
+          chips: ['Milestones', 'Changed ETAs'],
+          text: 'Pickup, handoffs, flights and delivery on one timeline, shared with everyone who needs it.',
+          rows: [['Status', 'Live, by leg'], ['ETAs', 'Updated for all'], ['History', 'Full audit trail']],
+        },
+      ],
+    },
+    {
+      key: 'hub',
+      label: 'Hub',
+      caption: 'One record behind every move.',
+      parties: ['Shipper', 'Receiver', 'Carrier', 'Finance'],
+      does: ['Confirms delivery with signature, seal and photos', 'Reconciles charges against what was agreed', 'Pays every party from one approved record'],
+      hotspots: [
+        {
+          role: 'shipper',
+          tag: 'For shippers',
+          title: 'Your freight. Your visibility.',
+          chips: ['Post once', 'Full cost upfront'],
+          text: 'Define the load once. See who qualifies and why, and the total cost before you book.',
+          rows: [['Brief', 'Lanes, dates, equipment'], ['Providers', 'Ranked with reasons'], ['Cost', 'Rate, fees, accessorials']],
+        },
+        {
+          role: null,
+          tag: 'Platform',
+          title: 'Delivered. Proven. Paid.',
+          chips: ['Proof of delivery', 'Reconciled'],
+          text: 'Proof of delivery, reconciliation and payment confirmed in one flow. Nobody chasing paperwork.',
+          rows: [['Proof', 'Signature, seal, photos'], ['Charges', 'Approved items only'], ['Payment', 'Every party notified']],
+        },
+      ],
+    },
+  ],
+};
+
+/* ------------------------------------------------------------------ journey */
+export const journey = {
+  eyebrow: 'Follow one shipment',
+  marquee: 'One shipment · Every mode · ',
+  hud: { speed: 'Speed', leg: 'Leg' },
+  chapters: [
+    {
+      key: 'booked',
+      events: [['Shipper', 'Load posted'], ['Carrier', 'Offer accepted'], ['Driver', 'Trip assigned']],
+      n: '01',
+      label: 'Booked',
+      title: ['Posted once.', 'Matched with reasons.'],
+      body: 'The shipper posts the load. Qualified carriers see why it fits. Terms are agreed and a driver is assigned, all on one record.',
+      cards: [
+        ['Shipper', 'Load posted', 'Origin, destination, equipment, dates and handling in one brief.'],
+        ['Carrier', 'Qualified match', 'Equipment, authority and lane checked first. Ranked second.'],
+        ['Both', 'Terms agreed', 'Rate, fees and accessorials visible before anyone commits.'],
+        ['Driver', 'Trip assigned', 'Instructions, references and dock times in the app.'],
+      ],
+    },
+    {
+      key: 'road',
+      n: '02',
+      events: [['Driver', 'Seal photographed'], ['Carrier', 'ETA shared'], ['Terminal', 'Slot confirmed']],
+      label: 'Road',
+      title: ['First mile.', 'Fully visible.'],
+      body: 'Pickup checked in, seal photographed, ETA shared with everyone who needs it.',
+    },
+    {
+      key: 'rail',
+      n: '03',
+      events: [['Terminal', 'Container received'], ['Rail operator', 'Custody signed'], ['Forwarder', 'Leg 3 owner notified']],
+      label: 'Rail',
+      title: ['Handoffs without', 'blind spots.'],
+      body: 'At the terminal the container moves to rail. Custody transfers with evidence, and the next owner is already on the record.',
+    },
+    {
+      key: 'sea',
+      n: '04',
+      events: [['Ocean line', 'Bill of lading issued'], ['Customs broker', 'Docs 4 of 6 ready'], ['Shipper', 'Vessel ETA updated']],
+      label: 'Sea',
+      title: ['Across oceans.', 'Across one record.'],
+      body: 'Bills of lading, customs readiness and vessel ETAs tracked leg by leg, visible to the forwarder, the shipper and the agent at the other end.',
+      points: ['Every leg has an owner', 'Documents ready before arrival', 'Delays show their impact', 'Revised costs approved in context'],
+    },
+    {
+      key: 'air',
+      n: '05',
+      events: [['Forwarder', 'Air leg added'], ['Airline', 'Booking confirmed'], ['Shipper', 'Revised cost approved']],
+      label: 'Air',
+      title: ['When it cannot wait,', 'it flies.'],
+      body: 'Time-critical cargo moves to air without losing the thread: same shipment, same documents, a new leg.',
+    },
+    {
+      key: 'delivered',
+      events: [['Receiver', 'Signed for delivery'], ['Finance', 'Charges reconciled'], ['Every party', 'Payment confirmed']],
+      n: '06',
+      label: 'Delivered',
+      title: ['Delivered. Proven.', 'Paid.'],
+      body: 'Proof of delivery, reconciliation and payment confirmed in one flow.',
+      flow: ['Delivered', 'Proof verified', 'Charges reconciled', 'Payment confirmed'],
+    },
+  ],
+};
+
+/* ------------------------------------------------------------------ platform */
+const cap = 'Illustrative interface · sample data';
+export const platform = {
+  eyebrow: 'The platform',
+  title: ['Powerful underneath.', 'Simple on the surface.'],
+  modules: [
+    {
+      key: 'matching',
+      label: 'Matching',
+      title: 'Qualify first. Rank second.',
+      body: 'Equipment, compliance, lane and availability decide who is eligible. Preferences, performance and total price rank them, and every match shows its reason.',
+      ui: {
+        title: 'Qualified providers',
+        meta: 'LD-20418 · Joliet → Columbus',
+        status: ['4 eligible', 'accent'],
+        caption: cap,
+        blocks: [
+          { type: 'checks', title: 'Why Northline fits', items: [["53' dry van registered", 'done'], ['Authority and insurance on file', 'done'], ['Runs this lane weekly', 'done'], ['Confirm dock appointment', 'warn']] },
+          { type: 'rank', items: [['Northline Freight', 96], ['Lakeside Haul', 91], ['Midway Carriers', 84]] },
+        ],
+      },
+    },
+    {
+      key: 'pricing',
+      label: 'Pricing',
+      title: 'See the rate. See the fees.',
+      body: 'Provider charge, platform fees and accessorials are visible before anyone books. Carriers set their own rate and accessorial rules.',
+      ui: {
+        title: 'Offer LD-20418',
+        meta: 'Dry van · 355 mi',
+        status: ['Ready to book', 'accent'],
+        caption: cap,
+        blocks: [
+          { type: 'breakdown', rows: [['Provider charge', '$1,450.00'], ['Platform fee', '$101.50'], ['Accessorials', 'None yet']], total: ['Total before booking', '$1,551.50'] },
+          { type: 'actions', items: [['Counter'], ['Agree and book', true]] },
+        ],
+      },
+    },
+    {
+      key: 'tracking',
+      label: 'Tracking',
+      title: 'See the next step and who owns it.',
+      body: 'Milestones, changed ETAs and exceptions reach every party on the shipment, each with an owner.',
+      ui: {
+        title: 'In transit',
+        meta: 'FJ-3302 · 4 legs',
+        status: ['On plan', 'accent'],
+        caption: cap,
+        blocks: [
+          { type: 'legs', items: [['Road · Chicago → New York', 'Delivered to port', 'done'], ['Ocean · New York → Istanbul', 'In transit · ETA Nov 21', 'active'], ['Road · Istanbul → Baku', 'Agent confirmed', 'pending'], ['Customs · Tashkent', 'Documents 4 of 6', 'warn']] },
+        ],
+      },
+    },
+    {
+      key: 'documents',
+      label: 'Documents',
+      title: 'Evidence attached to every handoff.',
+      body: 'Bills of lading, invoices, seals, photos and signatures live on the shipment record, not in inboxes.',
+      ui: {
+        title: 'Trade documents',
+        meta: 'Leg 2 · Ocean',
+        status: ['4 of 6 ready', 'warn'],
+        caption: cap,
+        blocks: [
+          { type: 'checks', items: [['Commercial invoice', 'done'], ['Packing list', 'done'], ['Bill of lading', 'done'], ['Insurance certificate', 'done'], ['Certificate of origin', 'warn'], ['Import licence', 'pending']] },
+        ],
+      },
+    },
+    {
+      key: 'exceptions',
+      label: 'Exceptions',
+      title: 'A delay changes the plan. Everyone sees how.',
+      body: 'Detect the impact, coordinate recovery and confirm the new plan, with revised costs approved before they land.',
+      ui: {
+        title: 'Vessel delayed',
+        meta: 'Leg 2 · New York → Istanbul',
+        status: ['+2 days', 'warn'],
+        caption: cap,
+        blocks: [
+          { type: 'alert', title: '2 later legs affected', body: 'Istanbul pickup and Tashkent customs slot need new dates.' },
+          { type: 'legs', items: [['Istanbul pickup', 'Nov 21 → Nov 23 · agent notified', 'done'], ['Customs slot', 'Rebook requested', 'active'], ['Storage +$180', 'Awaiting approval', 'warn']] },
+        ],
+      },
+    },
+    {
+      key: 'settlement',
+      label: 'Settlement',
+      title: 'Invoices that arrive with proof.',
+      body: 'Proof of delivery, photos and approved accessorials travel with the invoice, so settlement is a check, not a dispute.',
+      ui: {
+        title: 'Invoice INV-7731',
+        meta: 'LD-20418 · Delivered',
+        status: ['Approved', 'accent'],
+        caption: cap,
+        blocks: [
+          { type: 'breakdown', rows: [['Linehaul', '$1,450.00'], ['Detention (approved)', '$75.00'], ['Provider fee', '−$106.75']], total: ['Net to carrier', '$1,418.25'] },
+          { type: 'steps', items: [['Submitted', 'done'], ['Reconciled', 'done'], ['Paid', 'active']] },
+        ],
+      },
+    },
+  ],
+};
+
+/* ------------------------------------------------------------------ roles grid */
+export const rolesGrid = {
+  eyebrow: 'Roles',
+  title: ['Built for every seat', 'in the journey.'],
+  explore: 'Explore',
+  demo: { title: 'See it on your lanes', body: 'A walkthrough with your roles, lanes and workflows.', cta: 'Book a demo' },
+};
+
+/* ------------------------------------------------------------------ faq */
+export const faq = {
+  title: 'F.A.Q',
+  sub: 'Straight answers before you book a demo.',
+  items: [
+    ['What is HaulerHub?', 'A connected freight platform and marketplace. Shippers, carriers, drivers, forwarders and logistics providers work on one shared shipment record, from planning and matching through delivery, documents and settlement.'],
+    ['Which transport modes are covered?', 'Road (full truckload, LTL, partial, drayage, last mile), rail and intermodal, ocean, air and cross-border moves, plus warehousing, customs brokerage and value-added services.'],
+    ['Is HaulerHub a load board?', 'No. A load board lists freight. HaulerHub matches on real capability, then carries the shipment through booking, execution, documents and settlement.'],
+    ['How does matching work?', 'Requirements first: equipment, compliance, lane and availability decide who qualifies. Preferences, performance and total price then rank the eligible providers, and the reason is shown.'],
+    ['Who sees what?', 'Access follows each participant’s role. Everyone on a shipment sees the milestones they need; commercial details stay with the parties they belong to.'],
+    ['Can I see it on my own lanes?', 'Yes. Book a demo and we will walk through your lanes, roles and workflows.'],
+  ],
+};
+
+/* ------------------------------------------------------------------ closing */
+export const cta = {
+  title: ['Ready to move', 'as one?'],
+  body: 'See HaulerHub on your own lanes, roles and workflows.',
+  button: 'Book a demo',
+  cursor: 'Book a demo',
 };
 
 export const footer = {
-  line: 'Many parties move freight. HaulerHub makes them work as one.',
+  marquee: ['Full truckload', 'LTL', 'Drayage', 'Rail', 'Intermodal', 'Ocean', 'Air cargo', 'Cross-border', 'Last mile', 'Warehousing', 'Customs', 'Cross-docking'],
+  cols: {
+    site: 'Site',
+    roles: 'Roles',
+    company: 'Company',
+  },
   location: 'Chicago, Illinois, United States',
   company: 'ForwardNow LLC · ITF Group of Companies',
   copyright: '© 2026 HaulerHub',
-  disclaimer:
-    'Product interfaces on this site are illustrative and show sample data. Capabilities shown may be in development; availability varies.',
+  disclaimer: 'Product interfaces shown are illustrative and use sample data. Capabilities may be in development.',
 };
 
-/* ------------------------------------------------------------------------------------------
- * Persona pages. Each is a shorter scroll journey using the same truck scene.
- * ---------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------ persona pages */
+const step = (label, title, body, ui) => ({ label, title, body, ui: { caption: cap, ...ui } });
+
 export const pages = {
   shipper: {
-    meta: {
-      title: 'HaulerHub for Shippers · Your freight. Your visibility.',
-      description: 'Post detailed loads, review qualified providers and see every cost before you book. Track milestones, proof of delivery and claims in one record.',
-    },
-    hero: {
-      shot: 'frontLow',
-      eyebrow: 'HaulerHub for shippers',
-      title: ['Your freight.', 'Your visibility.'],
-      body: 'Define the load once. See who qualifies and why. Know the full cost before you commit, and follow every milestone to proof of delivery.',
-      primary: { label: 'Post a load', href: 'start' },
-      secondary: { label: 'Book a demo', href: 'demo' },
-    },
-    moments: [
-      { shot: 'side', anchor: 'trailerMid', side: 'left', eyebrow: '01 · Plan', title: 'Requirements first.', body: 'Origin, destination, commodity, weight, dates, equipment, temperature, hazmat and site access. Everything a provider needs, in one brief.', points: ['Facility and appointment details in the same record', 'Pickup references shared with the right people'], panel: 'shipperPost' },
-      { shot: 'rearQuarter', anchor: 'trailerRear', side: 'right', eyebrow: '02 · Match and book', title: 'A match you can understand.', body: 'Only qualified capacity becomes booking-ready. Each match shows why it fits, and what it costs, before you agree.', points: ['Provider charge, shipper fee and accessorials in view', 'Mandatory requirements are never relaxed silently'], panel: 'shipperMatches' },
-      { shot: 'top', anchor: 'roof', side: 'left', eyebrow: '03 · Move and settle', title: 'One shipment. One shared picture.', body: 'Milestones, changed ETAs and exceptions reach everyone involved. Proof of delivery, claims and approved charges close the loop.', points: ['Damage and shortage claims tied to evidence', 'Reconcile against approved charges only'], panel: 'shipperTrack' },
+    meta: { title: 'HaulerHub for Shippers · Your freight. Your visibility.', description: 'Post detailed loads, review qualified providers and see every cost before you book. Follow every milestone to proof of delivery.' },
+    hero: { eyebrow: 'For shippers', title: ['Your freight.', 'Your visibility.'], body: 'Define the load once. See who qualifies and why, know the full cost before you commit, and follow every milestone to proof of delivery.', primary: 'Post a load', station: 'hub' },
+    steps: [
+      step('Plan', 'Requirements first.', 'Origin, destination, commodity, weight, dates, equipment, temperature, hazmat and site access in one brief.', { title: 'New load', meta: 'LD-20418 · Draft', status: ['Ready to post', 'accent'], blocks: [{ type: 'route', from: ['Joliet, IL', 'Nov 12 · 08:00'], to: ['Columbus, OH', 'Nov 13 · 14:00'], meta: '355 mi' }, { type: 'kv', items: [['Equipment', "53' dry van"], ['Weight', '38,500 lb'], ['Handling', 'Floor-loaded'], ['Access', 'Dock high']] }] }),
+      step('Match', 'A match you can understand.', 'Only qualified capacity becomes booking-ready. Each match shows why it fits, and what it costs, before you agree.', platform.modules[0].ui),
+      step('Book', 'The total before you commit.', 'Provider charge, fees and accessorials side by side. No surprises after delivery.', platform.modules[1].ui),
+      step('Settle', 'Delivered. Proven. Paid.', 'Proof of delivery, claims and approved charges close the loop on the same record.', platform.modules[5].ui),
     ],
-    features: [
-      ['Shipment planning', 'Every requirement captured before anyone quotes.'],
-      ['Capability-based matching', 'Equipment, compliance, lane and availability checked first.'],
-      ['Quote and charge visibility', 'See the rate. See the fees.'],
-      ['Appointments and facilities', 'Docks, windows and references in one place.'],
-      ['Tracking and exceptions', 'Changed ETAs with an owner for every issue.'],
-      ['Documents, delivery and claims', 'Proof of delivery and claims tied to the record.'],
-    ],
-    cta: { title: 'Ship with full visibility.', body: 'Post your first load, or see HaulerHub on your own lanes.', primary: { label: 'Post a load', href: 'start' }, secondary: { label: 'Book a demo', href: 'demo' } },
   },
   carrier: {
-    meta: {
-      title: 'HaulerHub for Carriers · Build a stronger freight business.',
-      description: 'Find freight that fits your equipment, lanes and credentials. Price on your real costs, dispatch drivers and get paid with evidence attached.',
-    },
-    hero: {
-      shot: 'rearQuarter',
-      eyebrow: 'HaulerHub for carriers and owner-operators',
-      title: ['Build a stronger', 'freight business.'],
-      body: 'Freight matched to what your trucks can really do. Clear terms, clear costs, and invoices backed by evidence.',
-      primary: { label: 'Find freight', href: 'start' },
-      secondary: { label: 'Book a demo', href: 'demo' },
-    },
-    moments: [
-      { shot: 'side', anchor: 'trailerMid', side: 'left', eyebrow: '01 · Find', title: 'Know why a load fits.', body: 'Matching explains why a load fits your fleet, or which qualification is missing. No guesswork, no wasted calls.', points: ['Equipment and operating profiles you control', 'Preferred lanes and capacity windows'], panel: 'carrierMatch' },
-      { shot: 'cab', anchor: 'door', side: 'right', eyebrow: '02 · Run', title: 'Dispatch from the same record.', body: 'Accept terms, assign the right driver and truck, and keep every milestone attached to the load.', points: ['Drivers get instructions without a phone chain', 'Exceptions logged with an owner'], panel: 'carrierDispatch' },
-      { shot: 'rear', anchor: 'rearDoors', side: 'left', eyebrow: '03 · Get paid', title: 'Invoices that arrive with proof.', body: 'Proof of delivery, photos and approved accessorials travel with the invoice, so settlement is a check, not a dispute.', points: ['Detention and accessorials approved in the flow', 'Performance history you can stand behind'], panel: 'carrierSettle' },
+    meta: { title: 'HaulerHub for Carriers · Freight that fits your fleet.', description: 'Find freight that fits your equipment, lanes and credentials. Price on real costs, dispatch drivers and get paid with evidence attached.' },
+    hero: { eyebrow: 'For carriers & owner-operators', title: ['Freight that', 'fits your fleet.'], body: 'Matched to what your trucks can really do. Clear terms, clear costs, and invoices backed by evidence.', primary: 'Find freight', station: 'road' },
+    steps: [
+      step('Find', 'Know why a load fits.', 'Matching explains why a load fits your fleet, or which qualification is missing.', platform.modules[0].ui),
+      step('Price', 'Your costs, your rules.', 'Know your cost to run before you bid. Set your own rate and accessorial rules.', { title: 'Offer', meta: 'Joliet → Columbus', status: ['Match', 'accent'], blocks: [{ type: 'breakdown', rows: [['Your rate', '$1,450.00'], ['Est. cost to run', '−$1,012.00'], ['Provider fee', '−$101.50']], total: ['Est. margin', '$336.50'] }] }),
+      step('Run', 'Dispatch from the same record.', 'Assign the right driver and truck. Every milestone stays attached to the load.', { title: 'Dispatch', meta: 'Today · 6 units', status: ['2 need a driver', 'warn'], blocks: [{ type: 'legs', items: [['Unit 214 · M. Alvarez', 'LD-20418 · Joliet → Columbus', 'done'], ['Unit 208 · R. Okafor', 'LD-20433 · Gary → Detroit', 'done'], ['Unit 221 · Unassigned', 'LD-20440 · Aurora → St. Louis', 'warn']] }] }),
+      step('Get paid', 'Invoices that arrive with proof.', 'Proof of delivery and approved accessorials travel with the invoice.', platform.modules[5].ui),
     ],
-    features: [
-      ['Business and equipment profile', 'Show what you run and where.'],
-      ['Operating-cost intelligence', 'Know your cost to run before you bid.'],
-      ['Rate and accessorial controls', 'Your pricing rules, applied every time.'],
-      ['Capacity and freight discovery', 'Loads that fit, ranked after eligibility.'],
-      ['Dispatch, drivers and fleet', 'Assign and follow every unit.'],
-      ['Invoicing and settlement evidence', 'Get paid on documented work.'],
-    ],
-    cta: { title: 'Fill your trucks with freight that fits.', body: 'Set up your fleet profile, or talk to us about your operation.', primary: { label: 'Find freight', href: 'start' }, secondary: { label: 'Book a demo', href: 'demo' } },
   },
   driver: {
-    meta: {
-      title: 'HaulerHub for Drivers · A clearer day on the road.',
-      description: 'Trip and facility instructions, hours-aware planning, pickup and delivery proof, and support that reaches the right people.',
-    },
-    hero: {
-      shot: 'cab',
-      eyebrow: 'HaulerHub for drivers',
-      title: ['A clearer day', 'on the road.'],
-      body: 'Know where you are going, what is expected at the dock, and who to tell when something changes. All in one app.',
-      primary: { label: 'Get started', href: 'start' },
-      secondary: { label: 'For fleet owners', href: 'page:carrier' },
-    },
-    moments: [
-      { shot: 'frontLow', anchor: 'door', side: 'left', eyebrow: '01 · Before you roll', title: 'The trip, already sorted.', body: 'Assignment, facility instructions, references and hours-aware planning ready before you leave the yard.', points: ['Confirm identity, credentials and assignment', 'Dock, door and appointment details up front'], panel: 'driverTrip' },
-      { shot: 'side', anchor: 'trailerMid', side: 'right', eyebrow: '02 · On the road', title: 'Say it once. Everyone hears it.', body: 'Report a delay, a blocked dock or a problem with the load. Dispatch, shipper and receiver see the same update.', points: ['Custody and relay handoffs coordinated', 'Support when you need it'], panel: 'driverSupport' },
-      { shot: 'rear', anchor: 'rearDoors', side: 'left', eyebrow: '03 · At delivery', title: 'Close the trip with proof.', body: 'Seal checks, condition photos and signatures captured in a few taps, so nobody questions the delivery later.', points: ['Damage and shortage recorded on the spot', 'Trip closed, evidence shared'], panel: 'driverProof' },
+    meta: { title: 'HaulerHub for Drivers · A clearer day on the road.', description: 'Trip and facility instructions, hours-aware planning, pickup and delivery proof, and support that reaches the right people.' },
+    hero: { eyebrow: 'For drivers', title: ['A clearer day', 'on the road.'], body: 'Know where you are going, what is expected at the dock, and who to tell when something changes. All in one app.', primary: 'Get started', station: 'road' },
+    steps: [
+      step('Before you roll', 'The trip, already sorted.', 'Assignment, dock instructions, references and hours-aware planning before you leave the yard.', { title: 'Today’s trip', meta: 'LD-20418 · Unit 214', status: ['Checked in', 'accent'], blocks: [{ type: 'legs', items: [['Joliet DC · Dock 14', 'Pickup 08:30 · ref PO-55120', 'done'], ['Columbus DC · Door 3', 'Deliver by 14:00 tomorrow', 'active']] }, { type: 'kv', items: [['Drive time left', '6h 40m'], ['Next break', 'in 2h 10m']] }] }),
+      step('At pickup', 'Proof in a few taps.', 'Seals, photos, signatures and cargo condition captured at every stop.', { title: 'Pickup evidence', meta: 'Joliet DC · Dock 14', status: ['3 of 4', 'warn'], blocks: [{ type: 'checks', items: [['Seal 4471902 photographed', 'done'], ['Bill of lading signed', 'done'], ['Cargo photos 3 of 4', 'active'], ['Temperature check', 'pending']] }] }),
+      step('On the road', 'Say it once. Everyone hears it.', 'Report a delay or a blocked dock once. Dispatch, shipper and receiver see the same update.', { title: 'Trip chat', meta: 'Dispatch · Shipper · Receiver', status: ['Shared', 'accent'], blocks: [{ type: 'chat', items: [['You', 'Dock 14 is blocked. Told to wait 45 min.', true], ['Dispatch', 'Logged as a delay. Detention clock started.'], ['Shipper', 'Moving you to Dock 9. 10 minutes.']] }] }),
+      step('At delivery', 'Close the trip with proof.', 'Receiver signature, seal check and condition photos, so nobody questions the delivery later.', { title: 'Deliver', meta: 'Columbus DC · Door 3', status: ['Arrived 13:12', 'accent'], blocks: [{ type: 'checks', items: [['Seal intact', 'done'], ['Receiver signature', 'done'], ['Condition photos 4 of 4', 'done']] }, { type: 'actions', items: [['Close trip', true]] }] }),
     ],
-    features: [
-      ['Profile and credentials', 'Your qualifications, ready to share.'],
-      ['Trip and facility information', 'Instructions before you arrive.'],
-      ['Hours-aware trip planning', 'Plans that respect your clock.'],
-      ['Pickup and delivery evidence', 'Seals, photos and signatures.'],
-      ['Custody and relay coordination', 'Clean handoffs between drivers.'],
-      ['Communication and support', 'One channel, the right people.'],
-    ],
-    cta: { title: 'Run a clearer day on the road.', body: 'Get started with HaulerHub, or ask your carrier to connect you.', primary: { label: 'Get started', href: 'start' }, secondary: { label: 'Book a demo', href: 'demo' } },
   },
   forwarder: {
-    meta: {
-      title: 'HaulerHub for Freight Forwarders · Global complexity. Clear control.',
-      description: 'Design multi-leg, multimodal journeys, procure every leg, keep trade documents ready and see the impact of every delay.',
-    },
-    hero: {
-      shot: 'port',
-      eyebrow: 'HaulerHub for freight forwarders',
-      title: ['Global complexity.', 'Clear control.'],
-      body: 'A journey with many legs and one chain of responsibility. Plan it, procure it, document it and keep it on course.',
-      primary: { label: 'Plan a journey', href: 'start' },
-      secondary: { label: 'Book a demo', href: 'demo' },
-    },
-    moments: [
-      { shot: 'wide', anchor: 'roof', side: 'right', eyebrow: '01 · Design', title: 'Every leg has an owner.', body: 'Countries, modes, customs, insurance and responsibilities mapped before the first pickup. One leg should not be a blind spot.', points: ['Road, ocean, air and rail in one plan', 'Handoff evidence required at each border'], panel: 'forwarderJourney' },
-      { shot: 'rearQuarter', anchor: 'trailerRear', side: 'left', eyebrow: '02 · Procure', title: 'Compare agents on the same terms.', body: 'Tender each leg, compare offers on price, timing and qualifications, and confirm with the documents attached.', points: ['Jurisdiction-aware matching', 'Partner and agent network in one view'], panel: 'forwarderDocs' },
-      { shot: 'top', anchor: 'roof', side: 'right', eyebrow: '03 · Recover', title: 'A delay changes the plan. Everyone sees how.', body: 'Detect the impact, coordinate recovery and confirm the new plan, with revised costs approved before they land.', points: ['Dependencies between legs made visible', 'Final reconciliation across the journey'], panel: 'forwarderDelay' },
+    meta: { title: 'HaulerHub for Freight Forwarders · Global complexity. Clear control.', description: 'Design multi-leg, multimodal journeys, procure every leg, keep trade documents ready and see the impact of every delay.' },
+    hero: { eyebrow: 'For freight forwarders', title: ['Global complexity.', 'Clear control.'], body: 'A journey with many legs and one chain of responsibility. Plan it, procure it, document it and keep it on course.', primary: 'Plan a journey', station: 'sea' },
+    steps: [
+      step('Design', 'Every leg has an owner.', 'Countries, modes, customs, insurance and responsibilities mapped before the first pickup.', platform.modules[2].ui),
+      step('Procure', 'Agents on equal terms.', 'Tender each leg and compare offers on price, timing and qualifications.', { title: 'Tender · Leg 3', meta: 'Istanbul → Baku · road', status: ['3 offers', 'accent'], blocks: [{ type: 'rank', items: [['Agent B · 5 days', 94], ['Agent A · 6 days', 88], ['Agent C · 7 days', 81]] }, { type: 'actions', items: [['Compare'], ['Confirm leg', true]] }] }),
+      step('Document', 'Ready before the border.', 'Trade documents and customs readiness tracked leg by leg.', platform.modules[3].ui),
+      step('Recover', 'Delays show their impact.', 'See what a delay changes downstream and confirm the new plan with revised costs approved.', platform.modules[4].ui),
     ],
-    features: [
-      ['Multi-leg shipment design', 'One journey, many modes.'],
-      ['Tender and contract procurement', 'Compare offers leg by leg.'],
-      ['Partner and agent network', 'Local knowledge, connected.'],
-      ['Jurisdiction-aware matching', 'Qualified for each country and border.'],
-      ['Trade documents and readiness', 'Prepare the crossing before arrival.'],
-      ['Journey economics and exceptions', 'Revised costs, approved in context.'],
-    ],
-    cta: { title: 'Control every leg of the journey.', body: 'Plan your next multi-leg move, or see HaulerHub on a live lane of yours.', primary: { label: 'Plan a journey', href: 'start' }, secondary: { label: 'Book a demo', href: 'demo' } },
   },
   logistics: {
-    meta: {
-      title: 'HaulerHub for Logistics Providers · Your expertise. A connected network.',
-      description: 'Bring warehousing, customs, agent and specialist services into connected shipment plans. Agree scope, coordinate handoffs, capture evidence and invoice.',
-    },
-    hero: {
-      shot: 'rear',
-      eyebrow: 'HaulerHub for logistics providers',
-      title: ['Your expertise.', 'A connected network.'],
-      body: 'Warehouses, cross-docks, customs brokers, agents and specialists. Plug your services into full shipment plans and get work that fits.',
-      primary: { label: 'List your services', href: 'start' },
-      secondary: { label: 'Book a demo', href: 'demo' },
-    },
-    moments: [
-      { shot: 'side', anchor: 'trailerMid', side: 'right', eyebrow: '01 · Offer', title: 'Define work before confirmation.', body: 'Set your service area and capability, receive suitable work and agree scope and price before anything arrives.', points: ['A storefront for your real services', 'Pricing tied to agreed scope'], panel: 'providerOrder' },
-      { shot: 'frontLow', anchor: 'door', side: 'left', eyebrow: '02 · Coordinate', title: 'Appointments that line up.', body: 'Slots, doors and crews coordinated with the carriers and shippers on the same shipment.', points: ['Capacity visible to the right partners', 'Exceptions and approvals in context'], panel: 'providerSlots' },
-      { shot: 'rear', anchor: 'rearDoors', side: 'right', eyebrow: '03 · Close', title: 'Evidence at handoff. Invoices that match.', body: 'Capture service proof at every handoff, then invoice against the agreed scope.', points: ['Approved extras only', 'Performance you can show'], panel: 'providerInvoice' },
+    meta: { title: 'HaulerHub for Logistics Providers · Your expertise. A connected network.', description: 'Bring warehousing, terminals, customs, agent and specialist services into connected shipment plans. Agree scope, capture evidence and invoice.' },
+    hero: { eyebrow: 'For logistics providers', title: ['Your expertise.', 'A connected network.'], body: 'Warehouses, terminals, cross-docks, customs brokers and agents: plug your services into full shipment plans and get work that fits.', primary: 'List your services', station: 'rail' },
+    steps: [
+      step('Offer', 'A storefront for what you do.', 'Define service area and capability. Receive work that fits, with scope and price agreed upfront.', { title: 'Cross-dock WO-118', meta: 'Joliet, IL', status: ['Scope agreed', 'accent'], blocks: [{ type: 'checks', items: [['Unload and count · 26 pallets', 'done'], ['Re-label for Columbus DC', 'done'], ['Load out to carrier', 'active']] }] }),
+      step('Coordinate', 'Appointments that line up.', 'Slots, doors and crews coordinated with the carriers and shippers on the same shipment.', { title: 'Dock schedule', meta: 'Thursday', status: ['3 open', 'accent'], blocks: [{ type: 'slots', items: [['07:00', 'busy'], ['08:30', 'mine'], ['10:00', 'open'], ['11:30', 'busy'], ['13:00', 'open'], ['14:30', 'open']] }] }),
+      step('Hand off', 'Evidence at every exchange.', 'Inbound and outbound handoffs recorded with counts, photos and times.', { title: 'Handoffs', meta: 'WO-118', status: ['In progress', 'accent'], blocks: [{ type: 'legs', items: [['Inbound from carrier', '08:42 · 26 pallets · photos', 'done'], ['Outbound to carrier', 'Door 6 · 11:30', 'pending']] }] }),
+      step('Invoice', 'Bill on documented work.', 'Invoice against the agreed scope, with approved extras only.', { title: 'Invoice SV-2290', meta: 'WO-118 · Cross-dock', status: ['Matched to scope', 'accent'], blocks: [{ type: 'breakdown', rows: [['Handling · 26 pallets', '$468.00'], ['Re-labeling', '$130.00'], ['Storage (approved)', '$60.00']], total: ['Invoice total', '$658.00'] }] }),
     ],
-    features: [
-      ['Service storefront', 'Show what you do, and where.'],
-      ['Work scope and pricing', 'Agree before anything moves.'],
-      ['Appointment and capacity coordination', 'Doors, slots and crews in sync.'],
-      ['Handoff and service evidence', 'Proof at every exchange.'],
-      ['Exceptions and approvals', 'Changes approved in context.'],
-      ['Invoices and performance', 'Bill on documented work.'],
-    ],
-    cta: { title: 'Plug your services into the network.', body: 'List your services, or talk to us about your facilities.', primary: { label: 'List your services', href: 'start' }, secondary: { label: 'Book a demo', href: 'demo' } },
   },
 };
 
-/** Shared journey steps shown on persona pages. */
-export const journey = {
-  title: 'From first quote. To final payment.',
-  steps: [
-    ['Plan', 'Requirements'],
-    ['Match', 'Provider fit'],
-    ['Book', 'Confirmed terms'],
-    ['Move', 'Track and document'],
-    ['Settle', 'Reconcile and pay'],
-  ],
-};
-
-export const ui = {
-  switcherLabel: 'Choose your role',
-  menuOpen: 'Open menu',
-  menuClose: 'Close menu',
-  loading: 'Loading the journey',
+export const personaPage = {
+  stepsEyebrow: 'How it works for you',
   otherRoles: 'Other roles',
-  backHome: 'The full journey',
+  back: 'Back to the network',
 };
