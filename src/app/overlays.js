@@ -34,7 +34,7 @@ export function createOverlays({ stage, director, reduced }) {
         lift.copy(n.pos);
         lift.y += 1.7 + n.hi * 0.4;
         stage.project(lift, proj);
-        const vis = net.state.visible * (net.state.highlight ? (n.key === net.state.highlight ? 1 : 0) : 1);
+        const vis = net.state.visible * (net.state.labels ?? 1);
         const op = proj.visible ? vis : 0;
         el.style.opacity = op.toFixed(3);
         el.style.transform = `translate3d(${proj.x.toFixed(1)}px, ${proj.y.toFixed(1)}px, 0) translate(-50%, -100%)`;

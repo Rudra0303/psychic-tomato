@@ -220,8 +220,12 @@ export class Director {
       net.links = smooth(0.66, 0.92, u);
     }
     net.highlight = after ? this.state.persona : null;
-    if (after && !this.state.persona) net.highlight = null;
-    // during persona moments the network recedes; it returns, fully lit, for the payoff
-    if (after) net.visible = 1 - 0.0 * late;
+    net.labels = 1 - smooth(frag[1] + this.vh * 0.1, frag[1] + this.vh * 0.6, y);
+    if (after) {
+      // persona moments: the network steps back so the panel connector leads.
+      // payoff and statement: it returns, calmer, as "every party notified".
+      const into = smooth(frag[1], frag[1] + this.vh * 0.8, y);
+      net.visible = 1 - into + into * (0.08 + late * 0.5);
+    }
   }
 }

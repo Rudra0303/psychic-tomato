@@ -77,6 +77,9 @@
   border: 1px solid transparent;
   transition: background-color 0.5s, border-color 0.5s, backdrop-filter 0.5s;
 }
+.nav.on-light .nav__bar {
+  background: rgba(7, 17, 28, 0.94) !important;
+}
 .nav.is-scrolled .nav__bar,
 .nav.is-open .nav__bar {
   background: rgba(7, 17, 28, 0.72);
@@ -317,10 +320,8 @@
   gap: 8px;
   padding: 7px 12px 7px 9px;
   border-radius: 999px;
-  background: rgba(9, 20, 34, 0.7);
+  background: rgba(9, 20, 34, 0.86);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   font-size: 0.8rem;
   white-space: nowrap;
   opacity: 0;

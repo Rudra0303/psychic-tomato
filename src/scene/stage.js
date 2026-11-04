@@ -30,7 +30,7 @@ export async function createStage({ canvas, quality: Q, root = './', onProgress 
   renderer.setPixelRatio(dpr);
   renderer.setSize(window.innerWidth, window.innerHeight, false);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.92;
+  renderer.toneMappingExposure = 0.85;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -43,13 +43,13 @@ export async function createStage({ canvas, quality: Q, root = './', onProgress 
   // image based lighting for paint and chrome
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.3;
+  scene.environmentIntensity = 0.24;
   pmrem.dispose();
 
   // lights
   const hemi = new THREE.HemisphereLight(0x3a5a8c, 0x05080c, 0.45);
   scene.add(hemi);
-  const key = new THREE.DirectionalLight(0xc7d8ff, 1.05);
+  const key = new THREE.DirectionalLight(0xc7d8ff, 0.75);
   key.position.set(22, 34, 26);
   key.target.position.set(-3, 0, 0);
   key.castShadow = true;
@@ -104,7 +104,7 @@ export async function createStage({ canvas, quality: Q, root = './', onProgress 
     composer.setPixelRatio(dpr);
     composer.setSize(W(), H());
     composer.addPass(new RenderPass(scene, camera));
-    bloom = new UnrealBloomPass(new THREE.Vector2(W() / 2, H() / 2), 0.42, 0.5, 1.0);
+    bloom = new UnrealBloomPass(new THREE.Vector2(W() / 2, H() / 2), 0.36, 0.45, 1.15);
     composer.addPass(bloom);
     composer.addPass(new OutputPass());
   }

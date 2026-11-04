@@ -39,7 +39,7 @@ export function createMaterials(renderer, { hi }) {
     dark: new THREE.MeshStandardMaterial({ color: 0x1b2129, roughness: 0.55, metalness: 0.45 }),
     plastic: new THREE.MeshStandardMaterial({ color: 0x14181d, roughness: 0.6 }),
     rubber: new THREE.MeshStandardMaterial({ color: 0x0e1013, roughness: 0.92 }),
-    glass: new THREE.MeshPhysicalMaterial({ color: 0x05090e, roughness: 0.04, metalness: 0.2, clearcoat: 1, clearcoatRoughness: 0.02, envMapIntensity: 1.6 }),
+    glass: new THREE.MeshPhysicalMaterial({ color: 0x0c1824, roughness: 0.06, metalness: 0.55, clearcoat: 1, clearcoatRoughness: 0.03, envMapIntensity: 2.4 }),
     grille: new THREE.MeshStandardMaterial({ map: grille(renderer), roughness: 0.25, metalness: 0.85 }),
     head: new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xe8f0ff, emissiveIntensity: 3.2, roughness: 0.2 }),
     amber: new THREE.MeshStandardMaterial({ color: 0xffb547, emissive: 0xff9a2a, emissiveIntensity: 2.4 }),
@@ -202,8 +202,8 @@ function buildTractor(parts, M, hi) {
         return new THREE.Vector3(base.x + n.x - wrap * 0.6, base.y + n.y - wrap * 0.15, z * hw);
       };
       const a = pt(b, hw0, s0), bb = pt(b, hw0, s1), c = pt(t, hw1, s1), d = pt(t, hw1, s0);
-      [a, bb, c, a, c, d].forEach((v) => pos.push(v.x, v.y, v.z));
-      uv.push(s0, 0, s1, 0, s1, 1, s0, 0, s1, 1, s0, 1);
+      [a, c, bb, a, d, c].forEach((v) => pos.push(v.x, v.y, v.z));
+      uv.push(s0, 0, s1, 1, s1, 0, s0, 0, s0, 1, s1, 1);
     }
     geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
     geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
@@ -230,20 +230,6 @@ function buildTractor(parts, M, hi) {
     wg2.computeVertexNormals();
     parts.add(wg2, M.glass, { pos: [0, 0, -zw] });
 
-    const sl = new THREE.Shape();
-    sl.moveTo(-4.2, 2.62);
-    sl.lineTo(-4.9, 2.62);
-    sl.lineTo(-4.9, 2.86);
-    sl.lineTo(-4.2, 2.86);
-    const sg = new THREE.ShapeGeometry(sl);
-    const zs = cabHalfAt(-4.5, 2.74) + 0.012;
-    parts.add(sg, M.glass, { pos: [0, 0, zs] });
-    const sg2 = sg.clone();
-    sg2.scale(1, 1, -1);
-    const i2 = sg2.index;
-    if (i2) for (let i = 0; i < i2.count; i += 3) { const a = i2.getX(i); i2.setX(i, i2.getX(i + 2)); i2.setX(i + 2, a); }
-    sg2.computeVertexNormals();
-    parts.add(sg2, M.glass, { pos: [0, 0, -zs] });
   }
 
   // Door gaps (thin dark lines) and grab handles
@@ -353,8 +339,6 @@ function buildTrailer(parts, M, group) {
   // Rails (aluminium) top and bottom
   parts.pair(new THREE.BoxGeometry(L, 0.09, 0.03), M.alu, { pos: [xc, DIM.trailerTop - 0.08, W / 2 + 0.008] });
   parts.pair(new THREE.BoxGeometry(L, 0.2, 0.04), M.alu, { pos: [xc, y0 + 0.08, W / 2 + 0.01] });
-  // Lime accent stripe (emissive)
-  parts.pair(new THREE.BoxGeometry(L - 0.4, 0.055, 0.02), M.lime, { pos: [xc, y0 + 0.3, W / 2 + 0.012] });
 
   // Livery decals
   const decal = new THREE.PlaneGeometry(13, 2.3);
@@ -531,12 +515,12 @@ export function createTruck(renderer, { hi = true } = {}) {
   const wheels = buildWheels(group, M, tr.ax);
 
   // Headlight glow sprites (front)
-  const glowMat = new THREE.SpriteMaterial({ map: M.glowTex, color: 0xdfe8ff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false });
+  const glowMat = new THREE.SpriteMaterial({ map: M.glowTex, color: 0xdfe8ff, opacity: 0.7, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false });
   const glows = [];
   [0.84, -0.84].forEach((z) => {
     const s = new THREE.Sprite(glowMat);
     s.position.set(T + 0.3, 1.41, z);
-    s.scale.set(1.3, 1.3, 1);
+    s.scale.set(0.8, 0.8, 1);
     group.add(s);
     glows.push(s);
   });

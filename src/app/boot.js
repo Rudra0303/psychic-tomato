@@ -41,6 +41,13 @@ export async function boot() {
   gsap.ticker.lagSmoothing(0);
   setupNav({ lenis });
 
+  // start downloading the 3D chunk right away, in parallel with fonts
+  const canUseGL = webglAvailable();
+  const sceneMods = canUseGL
+    ? Promise.all([import('../scene/stage.js'), import('../scene/quality.js'), import('./director.js'), import('./overlays.js')])
+    : null;
+  sceneMods?.catch(() => {});
+
   // fonts first so canvas text (truck livery) and line splitting use the real faces
   const fonts = Promise.race([
     Promise.all([document.fonts.load('700 100px Satoshi'), document.fonts.load('500 16px "DM Sans Variable"')]).then(() => document.fonts.ready),
@@ -55,14 +62,9 @@ export async function boot() {
   let stage = null;
   let director = null;
   let overlays = null;
-  if (canvas && webglAvailable()) {
+  if (canvas && sceneMods) {
     try {
-      const [{ createStage }, { detectQuality }, { Director }, { createOverlays }] = await Promise.all([
-        import('../scene/stage.js'),
-        import('../scene/quality.js'),
-        import('./director.js'),
-        import('./overlays.js'),
-      ]);
+      const [{ createStage }, { detectQuality }, { Director }, { createOverlays }] = await sceneMods;
       pre.set(0.3);
       const quality = detectQuality();
       stage = await createStage({ canvas, quality, root, onProgress: (p) => pre.set(0.3 + p * 0.65) });
@@ -104,7 +106,7 @@ export async function boot() {
     last = now;
     if (lenis) lenis.raf(now);
     director.update(dt);
-    if (stage) {
+    if (stage && !window.__hhFreeze) {
       const covered = director.state.inLight && director.state.lightCover >= 1;
       stage.render(dt, { draw: !covered });
       overlays.update(dt);
@@ -168,7 +170,25 @@ export async function boot() {
   });
 
   // expose for screenshots and debugging
-  window.__hh = { stage, director, lenis, gsap, ScrollTrigger };
+  window.__hh = {
+    stage,
+    director,
+    lenis,
+    gsap,
+    ScrollTrigger,
+    // renders one settled frame on demand (used by the screenshot script)
+    frame() {
+      director.first = true;
+      director.update(0.016);
+      if (stage) {
+        for (let i = 0; i < 3; i++) stage.render(0.016);
+        overlays.update(0.5);
+        overlays.update(0.5);
+        overlays.update(0.5);
+      }
+      switcher.update();
+    },
+  };
 }
 
 function makeDebug() {

@@ -137,7 +137,7 @@ export function createNetwork(scene, anchors, glowTex) {
   const links = nodes.map((n, i) => ({ a: n, b: nodes[(i + 1) % nodes.length], arc: makeArc(0.035, 0.4) }));
   links.forEach((l) => group.add(l.arc));
 
-  const state = { visible: 0, gather: 0, draw: 0, links: 0, highlight: null, dim: 1 };
+  const state = { visible: 0, gather: 0, draw: 0, links: 0, highlight: null, labels: 1 };
   const tmp = new THREE.Vector3();
 
   function setArc(arc, a, b, lift, progress, opacity) {
@@ -168,7 +168,7 @@ export function createNetwork(scene, anchors, glowTex) {
         n.g.position.copy(n.pos);
         n.g.quaternion.copy(camera.quaternion);
         n.ring.rotation.z = t * 0.4 + n.phase;
-        const vis = s.visible * (s.highlight ? 0.35 + 0.65 * n.hi : 1);
+        const vis = s.visible * (s.highlight ? 0.12 + 0.6 * n.hi : 1);
         const connected = s.gather;
         n.core.material.opacity = vis;
         n.core.material.color.setRGB(0.6 + 0.4 * connected, 0.65 + 0.35 * connected, 0.72 + 0.28 * connected).multiplyScalar(1 + connected * 0.6 + n.hi);
@@ -178,13 +178,13 @@ export function createNetwork(scene, anchors, glowTex) {
         n.g.scale.setScalar(1 + n.hi * 0.35);
         // line from node to truck anchor
         const prog = Math.min(1, Math.max(0, s.draw * 1.25 - i * 0.06));
-        setArc(n.arc, n.pos, n.anchor, 3.5, prog, s.visible * (s.highlight ? 0.25 + 0.75 * n.hi : 1));
+        setArc(n.arc, n.pos, n.anchor, 3.5, prog, s.visible * (s.highlight ? 0.06 + 0.4 * n.hi : 1));
         n.arc.material.uniforms.boost.value = 1 + n.hi * 1.5;
       });
       links.forEach((l, i) => {
         const prog = Math.min(1, Math.max(0, s.links * 1.2 - i * 0.04));
         tmp.copy(l.a.pos);
-        setArc(l.arc, l.a.pos, l.b.pos, 2.2, prog, s.visible * 0.55 * (s.highlight ? 0.4 : 1));
+        setArc(l.arc, l.a.pos, l.b.pos, 2.2, prog, s.visible * 0.55 * (s.highlight ? 0.12 : 1));
       });
     },
   };

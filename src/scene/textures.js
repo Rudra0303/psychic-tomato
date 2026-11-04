@@ -213,7 +213,7 @@ export function roadMaps(renderer, { hi = true } = {}) {
     img.data[i] += n;
     img.data[i + 1] += n;
     img.data[i + 2] += n + 2;
-    const r = 120 + (Math.random() - 0.5) * 70;
+    const r = 132 + (Math.random() - 0.5) * 26;
     rimg.data[i] = rimg.data[i + 1] = rimg.data[i + 2] = r;
   }
   g.putImageData(img, 0, 0);

@@ -182,10 +182,10 @@ export function createWorld(scene, renderer, Q) {
          {
            vec4 ruv = vReflUv;
            float n = texture2D(roughnessMap, vRoughnessMapUv * vec2(3.0, 1.0)).g - 0.5;
-           ruv.x += n * 0.04 * ruv.w;
+           ruv.x += n * 0.012 * ruv.w;
            vec3 refl = texture2DProj(tRefl, ruv).rgb;
            float wet = 1.0 - smoothstep(0.2, 0.75, roughnessFactor);
-           outgoingLight += refl * (0.16 + wet * 0.55) * uRefl;
+           outgoingLight += refl * (0.06 + wet * 0.42) * uRefl;
          }
          #endif
          #include <opaque_fragment>`,
@@ -243,38 +243,37 @@ export function createWorld(scene, renderer, Q) {
   }
 
   // Streetlights: alternating sides
-  const SPACING = 42;
+  // twin-arm poles on the median, lighting both carriageways
+  const SPACING = 46;
   const poles = [];
-  for (let i = 0; i < RANGE / SPACING; i++) {
-    const side = i % 2 ? 1 : -1;
-    poles.push({ x: i * SPACING, side });
-  }
+  for (let i = 0; i < Math.floor(RANGE / SPACING); i++) poles.push({ x: i * SPACING });
+  const MZ = (ROAD.median[0] + ROAD.median[1]) / 2;
+  const heads2 = poles.flatMap((p) => [{ x: p.x, z: MZ + 3.2 }, { x: p.x, z: MZ - 3.2 }]);
   const poleMat = new THREE.MeshStandardMaterial({ color: 0x2a3340, roughness: 0.5, metalness: 0.6 });
   const lampMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xe9f1ff, emissiveIntensity: 2.4 });
   const pole = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.11, 0.16, 11, 8), poleMat, poles.length);
-  const arm = new THREE.InstancedMesh(new THREE.BoxGeometry(0.12, 0.12, 3.6), poleMat, poles.length);
-  const head = new THREE.InstancedMesh(new THREE.BoxGeometry(0.9, 0.12, 0.36), lampMat, poles.length);
-  const poleZ = (side) => (side > 0 ? ROAD.ours.rail[1] + 1.6 : ROAD.median[0] + 1.3);
-  stream(pole, poles.map((p) => ({ x: p.x, y: 5.5, z: poleZ(p.side) })));
-  stream(arm, poles.map((p) => ({ x: p.x, y: 10.9, z: poleZ(p.side) - p.side * 1.7 })));
-  stream(head, poles.map((p) => ({ x: p.x, y: 10.8, z: poleZ(p.side) - p.side * 3.2 })));
+  const arm = new THREE.InstancedMesh(new THREE.BoxGeometry(0.12, 0.12, 6.8), poleMat, poles.length);
+  const head = new THREE.InstancedMesh(new THREE.BoxGeometry(0.9, 0.12, 0.36), lampMat, heads2.length);
+  stream(pole, poles.map((p) => ({ x: p.x, y: 5.5, z: MZ })));
+  stream(arm, poles.map((p) => ({ x: p.x, y: 10.9, z: MZ })));
+  stream(head, heads2.map((h) => ({ x: h.x, y: 10.8, z: h.z })));
 
   // Pole glow sprites
   const glowTex = glow(renderer, '#eaf2ff');
   {
-    const n = poles.length;
+    const n = heads2.length;
     const g = new THREE.BufferGeometry();
     const pos = new Float32Array(n * 3);
     g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const pts = new THREE.Points(g, new THREE.PointsMaterial({ map: glowTex, size: 3.2, sizeAttenuation: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, color: 0x9fb4d6, opacity: 0.35 }));
+    const pts = new THREE.Points(g, new THREE.PointsMaterial({ map: glowTex, size: 2.4, sizeAttenuation: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, color: 0x9fb4d6, opacity: 0.35 }));
     pts.frustumCulled = false;
     scene.add(pts);
     updaters.push((d) => {
-      poles.forEach((p, i) => {
+      heads2.forEach((p, i) => {
         const x = ((((p.x - d) % RANGE) + RANGE) % RANGE) - RANGE / 2;
         pos[i * 3] = x;
         pos[i * 3 + 1] = 10.6;
-        pos[i * 3 + 2] = poleZ(p.side) - p.side * 3.2;
+        pos[i * 3 + 2] = p.z;
       });
       g.attributes.position.needsUpdate = true;
     });
@@ -284,7 +283,7 @@ export function createWorld(scene, renderer, Q) {
   const nLights = Q.mobile ? 1 : 3;
   const lamps = [];
   for (let i = 0; i < nLights; i++) {
-    const l = new THREE.PointLight(0xdfe8ff, Q.mobile ? 220 : 170, 46, 2);
+    const l = new THREE.PointLight(0xdfe8ff, Q.mobile ? 110 : 75, 46, 2);
     scene.add(l);
     lamps.push(l);
   }
@@ -299,7 +298,7 @@ export function createWorld(scene, renderer, Q) {
         const dd = Math.abs(x + 4);
         if (dd < bd) {
           bd = dd;
-          best = { x, z: poleZ(p.side) - p.side * 3.2 };
+          best = { x, z: MZ + 3.2 };
         }
       }
       l.position.set(best.x, 10.4, best.z);
@@ -327,7 +326,7 @@ export function createWorld(scene, renderer, Q) {
     uniforms: {
       fogColor: { value: FOG.clone() },
       density: { value: 0.0034 },
-      lit: { value: 0.82 },
+      lit: { value: 0.86 },
     },
     vertexShader: /* glsl */ `
       varying vec3 vW; varying vec3 vN; varying float vSeed; varying float vH;
@@ -353,7 +352,7 @@ export function createWorld(scene, renderer, Q) {
           float h = hash(id + vSeed * 7.13);
           float on = step(lit, h);
           vec3 wc = mix(vec3(1.0, 0.82, 0.55), vec3(0.75, 0.86, 1.0), hash(id.yx + vSeed));
-          c += wc * win * on * (0.18 + 0.32 * hash(id * 1.7));
+          c += wc * win * on * (0.1 + 0.22 * hash(id * 1.7));
           // facade side shading
           c *= abs(vN.x) > abs(vN.z) ? 0.8 : 1.0;
         } else if (vN.y > 0.5) {
@@ -372,7 +371,7 @@ export function createWorld(scene, renderer, Q) {
     for (let i = 0; i < n; i++) {
       const x = (rand() - 0.5) * 1500;
       const downtown = Math.exp(-Math.pow((x + 120) / 220, 2));
-      const z = -170 - rand() * 330 - downtown * 40;
+      const z = -260 - rand() * 360 - downtown * 60;
       const h = 14 + Math.pow(rand(), 2.2) * 70 + downtown * (40 + Math.pow(rand(), 1.5) * 170);
       const w = 14 + rand() * 30;
       items.push({ x, z, h, w, d: 14 + rand() * 30 });

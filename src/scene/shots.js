@@ -15,7 +15,7 @@ export const SHOTS = {
   hero: { pos: [25, 1.9, 12.5], target: [-1, 3.1, 4.6], fov: 30, orbit: 7, dolly: 4, rise: 0.6, m: { pos: [30, 3, 15], target: [-2, 0.6, 0], fov: 40 } },
   wide: { pos: [44, 30, 50], target: [-5, 4, -2], fov: 38, orbit: 12, dolly: 6, rise: 2, m: { fov: 58, target: [-4, 8, 0] } },
   connect: { pos: [30, 19, 38], target: [-4, 6.5, 0], fov: 40, orbit: 10, dolly: 4, rise: -1, m: { fov: 60, target: [-4, 6, 0] } },
-  side: { pos: [-1.5, 3.4, 26], target: [-1.5, 3.4, 0], fov: 32, orbit: 8, dolly: 3, rise: 0.4, m: { pos: [-2, 6, 34], target: [-2, 3.2, 0], fov: 46 } },
+  side: { pos: [-2, 4.2, 31], target: [-2, 4.6, 0], fov: 32, orbit: 8, dolly: 3, rise: 0.4, m: { pos: [-2, 6, 34], target: [-2, 3.2, 0], fov: 46 } },
   rearQuarter: { pos: [-31, 5.5, -17], target: [-7, 2.8, 1], fov: 33, orbit: 9, dolly: 3, rise: 0.5, m: { pos: [-34, 7, -22], target: [-5, 2.6, 0], fov: 50 } },
   cab: { pos: [10.5, 3.1, 9.5], target: [3.8, 2.7, 0], fov: 34, orbit: 10, dolly: 1.5, rise: 0.3, m: { pos: [16, 4, 13], target: [2, 2.6, 0], fov: 50 } },
   port: { pos: [-8, 15, -28], target: [4, 4.5, 26], fov: 40, orbit: 6, dolly: 3, rise: 1, m: { fov: 60, pos: [-10, 18, -32] } },

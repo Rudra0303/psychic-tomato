@@ -103,6 +103,7 @@ export function setupSwitcher({ director, lenis, reduced }) {
       const firstHold = director.holds[0];
       const visible = window.scrollY > (firstHold ? firstHold.end * 0.55 : 100) && st.lightCover < 0.5;
       el.classList.toggle('is-visible', visible);
+      document.querySelector('[data-nav]')?.classList.toggle('on-light', st.lightCover > 0.92);
       if (isStatic) return;
       if (st.persona !== current) {
         current = st.persona;

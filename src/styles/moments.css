@@ -149,6 +149,24 @@ main {
   margin-top: 8px;
 }
 
+/* readability scrims: a soft side gradient plus a glow behind the copy */
+.moment--persona .moment__inner::before,
+.moment--hero .moment__inner::before,
+.moment--fragment .moment__inner::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 calc(50% - 50vw);
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(4, 10, 18, 0.78) 0%, rgba(4, 10, 18, 0.5) 30%, transparent 52%);
+}
+.moment--persona.side-right .moment__inner::before {
+  background: linear-gradient(270deg, rgba(4, 10, 18, 0.78) 0%, rgba(4, 10, 18, 0.5) 30%, transparent 52%);
+}
+.moment--hero .moment__inner::before,
+.moment--fragment .moment__inner::before {
+  background: linear-gradient(20deg, rgba(4, 10, 18, 0.8) 0%, rgba(4, 10, 18, 0.45) 32%, transparent 55%);
+}
 /* readability scrim behind copy */
 .moment__copy {
   position: relative;
