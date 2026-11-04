@@ -567,9 +567,9 @@
   top: clamp(150px, 27vh, 260px);
 }
 .jcards {
-  position: fixed;
+  position: absolute;
   left: 0;
-  bottom: 6vh;
+  bottom: 7vh;
   display: flex;
   gap: 14px;
   padding-left: 46vw;

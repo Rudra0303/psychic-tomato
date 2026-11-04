@@ -235,10 +235,11 @@ function network() {
 /* ------------------------------------------------------------------ journey */
 function journey() {
   const j = C.journey;
+  let cardsHtml = '';
   const chapters = j.chapters
     .map((c, i) => {
       let extra = '';
-      if (c.cards) extra = `<div class="jcards" data-jcards>${c.cards.map(([who, t, b], k) => `<div class="jcard"><span class="mono">${esc(who)}</span><b>0${k + 1} ${esc(t)}</b><p>${esc(b)}</p></div>`).join('')}</div>`;
+      if (c.cards) cardsHtml = `<div class="jcards" data-jcards>${c.cards.map(([who, t, b], k) => `<div class="jcard"><span class="mono">${esc(who)}</span><b>0${k + 1} ${esc(t)}</b><p>${esc(b)}</p></div>`).join('')}</div>`;
       if (c.points) extra = `<ul class="jpoints">${c.points.map((p) => `<li>${icon('check')}${esc(p)}</li>`).join('')}</ul>`;
       if (c.flow) extra = `<ol class="jflow">${c.flow.map((f) => `<li><i>${icon('check')}</i>${esc(f)}</li>`).join('')}</ol>`;
       return `<article class="chapter chapter--${c.key}" data-chapter="${i}">
@@ -255,6 +256,7 @@ function journey() {
       <div class="journey__intro" data-jintro><p class="eyebrow"><i></i>${esc(j.eyebrow)}</p></div>
       <div class="hud mono" data-hud aria-hidden="true"><span>${esc(j.hud.speed)} <b data-speed>00</b> km/h</span><span>${esc(j.hud.leg)} <b data-leg>01</b>/06</span><span data-mode>${esc(j.chapters[0].label)}</span></div>
       <div class="chapters">${chapters}</div>
+      ${cardsHtml}
       <aside class="jrec" data-jrec aria-label="Shipment record activity (illustrative)">
         <div class="jrec__head">${mark(16)}<span class="mono">HH-20418 · Activity</span><span class="live"><i></i>Live</span></div>
         <ol class="jrec__log" data-jlog>${log}</ol>

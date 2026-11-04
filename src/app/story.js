@@ -61,28 +61,42 @@ export async function start({ lenis, reduced }) {
     netUI?.setStation(i);
   }
 
-  // which scene is active
-  const active = { net: false, journey: false, phero: !!phero };
+  // each scene renders only inside its own pinned section (scissored viewport)
+  const netPin = net?.querySelector('.network__pin');
+  const pheroPin = phero?.querySelector('.phero__copy');
+  const journeyPin = journeyEl?.querySelector('.journey__pin');
   if (net) {
     ScrollTrigger.create({
       trigger: net,
       start: 'top bottom',
       end: 'bottom top',
-      onToggle: (s) => (active.net = s.isActive),
-      onUpdate: (s) => {
+      onUpdate: () => {
         const pin = net.offsetHeight - innerHeight;
-        const y = clamp((scrollY - net.offsetTop) / pin);
+        const y = clamp(-net.getBoundingClientRect().top / pin);
         const i = Math.min(STATIONS.length - 1, Math.floor(y * STATIONS.length * 0.9999));
         if (i !== station) flyTo(i);
         netUI?.progress(y);
       },
     });
   }
-  if (phero) {
-    ScrollTrigger.create({ trigger: phero, start: 'top top', end: 'bottom top', onToggle: (s) => (active.phero = s.isActive || scrollY < 10) });
+  const R = E.renderer;
+  R.autoClear = false;
+  function region(el) {
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    if (r.bottom <= 0 || r.top >= innerHeight) return null;
+    return r;
   }
-  if (journeyEl) {
-    ScrollTrigger.create({ trigger: journeyEl, start: 'top bottom', end: 'bottom top', onToggle: (s) => (active.journey = s.isActive) });
+  function draw(scene, r) {
+    const H = innerHeight;
+    const W = innerWidth;
+    const y0 = Math.max(0, H - r.bottom);
+    const y1 = Math.min(H, H - r.top);
+    R.setViewport(0, H - r.bottom, W, r.height);
+    R.setScissor(0, y0, W, y1 - y0);
+    R.setScissorTest(true);
+    R.clear();
+    R.render(scene, cam);
   }
 
   /* ---------------- loop ---------------- */
@@ -133,24 +147,28 @@ export async function start({ lenis, reduced }) {
     }
     wl.follow(view.target);
     world.update(t, dt);
-    E.render(world.scene, dt);
-    netUI?.frame(cam, flight, t);
   }
 
   function frame(dt) {
     t += dt;
-    const anyNet = active.net || active.phero;
-    if (active.journey && journey) {
-      canvas.classList.add('is-on');
-      journey.frame(dt, t);
-    } else if (anyNet) {
-      canvas.classList.add('is-on');
+    R.setScissorTest(false);
+    R.setViewport(0, 0, innerWidth, innerHeight);
+    R.clear();
+    let any = false;
+    const rn = region(netPin) || region(pheroPin);
+    if (rn) {
       frameNetwork(dt);
-    } else {
-      canvas.classList.remove('is-on');
-      journey?.idle();
+      draw(world.scene, rn);
+      if (netPin) netUI?.frame(cam, flight, t, rn);
+      any = true;
     }
-    if (!active.journey) journey?.hideDom();
+    const rj = journey && region(journeyPin);
+    if (rj) {
+      journey.frame(dt, t);
+      draw(journey.scene, rj);
+      any = true;
+    } else journey?.hideDom();
+    canvas.classList.toggle('is-on', any);
   }
   let last = performance.now();
   gsap.ticker.add(() => {
@@ -237,10 +255,11 @@ function setupNetworkUI(sec, world, lenis, reduced) {
     progress(y) {
       head.style.opacity = String(1 - clamp((y - 0.02) / 0.1));
     },
-    frame(camera, flight, t) {
+    frame(camera, flight, t, r) {
       if (cur < 0) this.setStation(world.state.station);
       const w = innerWidth;
       const h = innerHeight;
+      const oy = 0; // labels live inside the pin, which shares the viewport offset
       // hotspots
       hs.forEach((el) => {
         const [s, j] = el.dataset.hs.split('-').map(Number);
