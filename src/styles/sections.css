@@ -1448,3 +1448,16 @@
 .actor.is-vis {
   opacity: 1;
 }
+
+/* readability scrim behind journey chapter copy */
+.chapter::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -40px -60px -40px -60px;
+  background: radial-gradient(closest-side, rgba(242, 240, 235, 0.92), rgba(242, 240, 235, 0.6) 60%, transparent);
+  pointer-events: none;
+}
+.journey.on-dark .chapter::before {
+  background: radial-gradient(closest-side, rgba(6, 18, 34, 0.75), rgba(6, 18, 34, 0.4) 60%, transparent);
+}

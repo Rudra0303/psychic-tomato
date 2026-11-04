@@ -1,17 +1,25 @@
-# HaulerHub: immersive 3D marketing site
+# HaulerHub: marketing site
 
-A scroll-driven 3D site for HaulerHub, the connected freight platform. One white American Class 8
-tractor-trailer drives a night highway while the camera follows "one shipment, one journey":
-the problem, the connected ecosystem, one moment per persona with an illustrative product UI
-panel, then delivery, proof and payment.
+A product-first, scroll-driven site for HaulerHub, the connected freight platform for road, rail,
+sea and air. Static build: Vite + Three.js + GSAP ScrollTrigger + Lenis. No backend.
 
-- **Landing page** (`/`): the full journey.
-- **Persona pages**: `/shippers/`, `/carriers/`, `/drivers/`, `/forwarders/`, `/logistics-providers/`.
-  Shorter journeys on the same truck scene, with copy, panels and CTAs for that role.
+## The page, top to bottom
 
-Static build (Vite + Three.js + GSAP ScrollTrigger + Lenis). No backend, no API keys.
+| Section | What it does | Inspired by |
+|---|---|---|
+| Loader | Iris wipe with the four modes cycling | United Carriers |
+| **Product hero** (`#product`) | The app first: a live shipment record (route, legs, connected parties, documents, costs) tilting into place, with floating match / driver-app / settlement cards | product-led SaaS heroes (Linear, Railway on Mobbin) |
+| **Problem → one record** (`#problem`) | Scattered emails, calls, spreadsheets and PDFs collapse into one shipment record; catalog figures count up | Ramp "systems that never spoke" (Mobbin) |
+| **How it connects** (`#network`) | Emons-style pinned 3D world with five stations (road depot, rail terminal, sea port, airport, delivery hub). Scroll or the 01–05 tabs fly the camera between stations at a fixed pace. At each station the parties working there are labelled and linked by orange arcs to a floating shipment-record beacon; "+" hotspots open product cards | Emons hero |
+| **Journey** (`#journey`) | United-Carriers-style scroll-scrubbed story: one container is loaded at a dock (side view), the camera turns top-down to follow the truck, a gantry moves it to rail, a ship-to-shore crane loads it on a ship, the camera climbs over the ocean and above the clouds with a plane, then descends to the hub for delivery. A live "shipment record" panel logs each party's action; a HUD shows speed and leg | United Carriers services/why sections |
+| **Platform** (`#platform`) | Dark pinned browser: six modules (matching, pricing, tracking, documents, exceptions, settlement) with illustrative UI | United Carriers services page |
+| Roles | Tiles with rendered 3D models, orange hover fill, links to persona pages | Emons services grid |
+| F.A.Q, CTA, footer | Accordion; dark CTA where the cursor becomes a "Book a demo" disc; footer with a particle wordmark that scatters from the cursor | United Carriers |
 
-## Quick start
+Persona pages (`/shippers/`, `/carriers/`, `/drivers/`, `/forwarders/`, `/logistics-providers/`) open on
+the same 3D world framed on that role's station, then a four-step workflow browser, other roles and CTA.
+
+## Run
 
 ```bash
 npm install
@@ -21,151 +29,61 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173. Useful URL flags while developing:
-
-| Flag | Effect |
-|------|--------|
-| `?debug` | FPS, draw calls, triangles, pixel ratio, quality tier |
-| `?quality=high\|medium\|low` | Force a quality tier (default is detected) |
-| `?reduced` | Preview the reduced-motion experience |
-| `?noadapt` | Turn off automatic resolution scaling |
-
 ```bash
 npm run build
 ```
 
-```bash
-npm run preview
+URL flags: `?quality=high|medium|low`, `?reduced` (reduced-motion preview), `?noadapt` (no
+automatic resolution scaling).
+
+## Structure
+
+```
+src/content.js          ALL copy: hero app data, problem, stations, journey chapters, platform modules, FAQ, persona pages
+src/templates/          Renders content.js into static HTML at build time (render.js, ui.js, icons.js)
+src/styles/             base (tokens, type, buttons) · chrome (loader, header, menu, cursor) · hero · sections · ui
+src/app/boot.js         Loader → header/cursor/transitions → hero → sections → lazy 3D
+src/app/sections.js     Hero tilt, reveals, problem collapse, platform browser, footer particles
+src/app/chrome.js       Header states, full-screen menu, cursor, page transition
+src/app/story.js        Connects scroll + DOM to the 3D scenes (stations, hotspots, labels, journey)
+src/gl/models.js        Procedural models: trucks, containers, trains, ships, planes, cranes, buildings, trees
+src/gl/world.js         The five-station network world
+src/gl/journey.js       The scroll-scrubbed shipment journey
+src/gl/links.js         Connection arcs + shipment-record beacon
+src/gl/thumbs.js        Role tile thumbnails
+src/gl/engine.js        Renderer, lights, quality tiers
 ```
 
-## Project structure
+Each 3D scene renders only inside its own pinned section (scissored viewport), so sections slide
+in and out like normal page content.
 
-```
-index.html, shippers/ … logistics-providers/   Page shells (filled in at build time)
-src/content.js            ALL copy, personas, panels, links and placeholder figures
-src/templates/            Renders content.js into static HTML (runs in Node via vite.config.js)
-  render.js               Page layouts: nav, moments, light section, footer
-  panels.js               Illustrative UI panels built from simple blocks
-  icons.js                Line icons + HaulerHub logomark
-src/styles/               base (tokens, type, buttons), chrome (nav, preloader, switcher),
-                          moments (scroll sections), panels (glass UI), light (closing + footer)
-src/app/                  Browser runtime
-  boot.js                 Preloader → fonts → 3D stage → scroll director → reveals
-  director.js             Maps scroll position to camera shots and story state
-  reveal.js               Text line reveals, panel assembly, count-ups (GSAP)
-  overlays.js             Node labels, panel → truck connector line, payoff flow
-  ui.js                   Navigation menus, persona switcher, preloader
-src/scene/                Shared Three.js scene (lazy-loaded chunk)
-  stage.js                Renderer, lights, bloom, adaptive resolution, optional .glb loader
-  truck.js                Procedural tractor-trailer (merged geometry, instanced wheels)
-  world.js                Sky, wet road with reflections, streetlights, skyline, port, traffic
-  network.js              Persona nodes and lime connection arcs
-  shots.js                Camera shots used by pages (positions, drift, phone overrides)
-  textures.js             Canvas textures: trailer livery, road markings, grille, glow
-  quality.js              Quality tiers
-public/                   favicon, social image, Draco decoder (only used with a .glb)
-docs/scroll-timeline.md   The scroll timeline and pacing rules
-reference/brand-notes.md  Brand and content reference (source for copy)
-```
+## Editing
 
-The HTML text is real, static markup generated from `src/content.js`, so it is readable without
-JavaScript, by screen readers and by search engines. The 3D canvas is decorative
-(`aria-hidden`).
-
-## Editing copy
-
-Everything a visitor reads is in **`src/content.js`**:
-
-- `landing`: hero, fragmentation steps, one block per persona, payoff, statement, closing cards.
-- `pages.<persona>`: each persona page (hero, three moments, features, CTA).
-- `panels`: the illustrative UI mockups. Each panel is a list of blocks (`header`, `route`,
-  `fields`, `chips`, `checks`, `steps`, `legs`, `breakdown`, `alert`, `actions`, `map`, `chat`,
-  `slots`, `meter`). All values are sample data.
-- `links`: the demo and get-started URLs. **These are placeholders**, see below.
-
-Save the file and the dev server reloads.
-
-To move a moment's camera, change its `shot` to another name from `src/scene/shots.js`, or edit
-the numbers there. `side: 'left' | 'right'` puts the copy on that side (the panel takes the
-other). `anchor` is where the panel's connector line meets the truck (`door`, `cab`, `roof`,
-`trailerMid`, `trailerRear`, `rearDoors`, `hub`).
+- Copy: edit `src/content.js`; the dev server reloads.
+- Station hotspots and party lists: `network.stations` in `content.js`. Their 3D positions live in
+  `src/gl/world.js` (`hotspots[...]`, `actors`).
+- Journey timing: chapter windows `CH` in `src/gl/journey.js` must stay in the same order as
+  `journey.chapters` in `content.js`.
 
 ### Placeholders to replace before launch
 
-Search for `PLACEHOLDER` in `src/content.js`:
+Search `PLACEHOLDER` in `src/content.js`: `site.url`, `links.demo`, `links.start`, and the catalog
+figures in the problem section. All product UI is illustrative and captioned as sample data. There
+are no testimonials, customer logos or performance statistics.
 
-- `site.url`: the production domain (used for canonical and social-preview URLs).
-- `links.demo` and `links.getStarted`: currently `mailto:` addresses on `haulerhub.example`.
-- `capabilities.figures`: catalog counts (21 services, 13 equipment categories) as stated on
-  the current site. They are labelled on the page as placeholder figures; confirm or remove.
+## Design
 
-There are no testimonials, customer logos or performance statistics. Panel values (rates,
-load IDs, cities, names) are illustrative and each panel is captioned "Illustrative interface ·
-sample data".
+Own identity: warm paper `#F2F0EB`, ink `#0E0F12`, signal orange `#FF5A1F`. Archivo Expanded for
+display, Geist for text, Geist Mono for labels. Self-hosted fonts.
 
-## Swapping in a truck model (.glb)
+## Performance and accessibility
 
-The procedural truck is used unless a model file exists at either:
+- Three.js loads as a separate chunk in parallel with the loader; text never waits for WebGL.
+- Quality tiers cap pixel ratio and shadow size; resolution drops automatically if frames are slow.
+- Real HTML text throughout, keyboard-operable menu, tabs, hotspots and FAQ, visible focus.
+- `prefers-reduced-motion`: no smooth scroll, no loader animation, no cursor, instant camera cuts.
 
-- `public/assets/truck.glb` (recommended), or
-- `assets/truck.glb` at the repo root.
+## Deploy
 
-The file is detected at build/dev-server start (restart `npm run dev` after adding it).
-
-Model guidelines:
-
-- One white American Class 8 long-hood sleeper tractor with a 53 ft dry van. No manufacturer
-  logos or badges.
-- Y-up, facing +X if possible (the loader rotates it if the longest side runs along Z).
-- It is scaled to 22.9 m overall and placed like the procedural rig, wheels on the ground.
-- Compress it: Draco or Meshopt both work (decoders are bundled; Draco files live in
-  `public/draco/`). For example with [gltf-transform](https://gltf-transform.dev):
-
-```bash
-npx @gltf-transform/cli optimize truck-source.glb public/assets/truck.glb --compress meshopt --texture-compress webp
-```
-
-- The HaulerHub livery decals are overlaid on the trailer sides by default. If the model already
-  carries the livery, set `overlayLivery: false` in `GLB_OPTIONS` in `src/scene/stage.js`.
-- Wheels of a .glb are not animated. Panel connector points (`anchors` in `src/scene/truck.js`)
-  assume the standard rig proportions.
-
-## Performance
-
-- Three.js and the scene are a separate chunk, loaded in parallel with fonts while the
-  preloader runs. Text and styles never wait for WebGL.
-- Static truck parts are merged per material (~25 draw calls for the rig), wheels are instanced,
-  streetlights and reflectors are instanced and streamed.
-- Pixel ratio is capped per tier (1.75 high, 1.25 medium, 1.5 low) and drops automatically if
-  frames run slow; road reflections switch off first on struggling GPUs.
-- Tiers: **high** (desktop) bloom, MSAA, real-time road reflections, 2048 shadows;
-  **medium** bloom, no reflections; **low** (phones) no post-processing, one moving light,
-  1024 shadows. Same story on every tier.
-- Rendering stops while the light closing section covers the screen.
-
-## Accessibility
-
-- Real HTML text, semantic headings, skip link, visible focus rings, keyboard-operable menus
-  (Escape closes) and persona switcher (moves focus to the chosen moment's heading).
-- `prefers-reduced-motion`: no smooth scrolling, no camera travel (hard cuts between shots),
-  no parallax, the truck stands still and all text is shown without animation.
-- Without WebGL or JavaScript the page still reads top to bottom.
-
-## Deploying
-
-The build output in `dist/` is fully static and uses relative paths, so it works at a domain
-root or in a sub-folder (GitHub Pages project sites).
-
-**Netlify**: build command `npm run build`, publish directory `dist`. A `netlify.toml` is
-included.
-
-**GitHub Pages**: a workflow is included at `.github/workflows/deploy.yml`. In the repository
-settings, set Pages → Source to "GitHub Actions"; every push to `main` deploys.
-
-After deploying, set `site.url` in `src/content.js` to the live URL so `og:image` and canonical
-links resolve, and rebuild.
-
-## Social preview
-
-`public/og-image.png` (1200×630) is a render of the hero. To regenerate it, run the dev server
-and capture `/?quality=high` at 1200×630 with any headless browser.
+Static output in `dist/` uses relative paths. Netlify: `netlify.toml` included. GitHub Pages:
+`.github/workflows/deploy.yml` deploys on push to `main` (set Pages source to GitHub Actions).
