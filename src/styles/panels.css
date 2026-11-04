@@ -560,7 +560,7 @@
   .panel__chrome {
     padding: 9px 12px;
   }
-  .panel__body > .pb:nth-child(n + 4) {
+  .panel__body > .pb:nth-child(n + 3) {
     display: none;
   }
   .panel--phone {
@@ -568,8 +568,8 @@
     border-radius: 30px;
     padding: 8px;
   }
-  .panel--phone .panel__body > .pb:nth-child(n + 4) {
-    display: none;
+  .panel--phone {
+    --panel-w: 280px;
   }
   .panel__caption {
     top: auto;
@@ -581,7 +581,7 @@
   }
 }
 @media (max-width: 860px) and (max-height: 720px) {
-  .panel__body > .pb:nth-child(n + 3) {
+  .panel__body > .pb:nth-child(n + 2):not(.pb-header + .pb) {
     display: none;
   }
 }

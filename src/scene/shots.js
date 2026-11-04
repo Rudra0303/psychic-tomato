@@ -12,7 +12,7 @@
 export const PIVOT = [-3, 0, 0];
 
 export const SHOTS = {
-  hero: { pos: [25, 1.9, 12.5], target: [-1, 3.1, 4.6], fov: 30, orbit: 7, dolly: 4, rise: 0.6, m: { pos: [30, 3, 15], target: [-2, 0.6, 0], fov: 40 } },
+  hero: { pos: [25, 1.9, 12.5], target: [-1, 3.1, 4.6], fov: 30, orbit: 7, dolly: 4, rise: 0.6, m: { pos: [34, 6, 17], target: [-1, -3.4, 0], fov: 42 } },
   wide: { pos: [44, 30, 50], target: [-5, 4, -2], fov: 38, orbit: 12, dolly: 6, rise: 2, m: { fov: 58, target: [-4, 8, 0] } },
   connect: { pos: [30, 19, 38], target: [-4, 6.5, 0], fov: 40, orbit: 10, dolly: 4, rise: -1, m: { fov: 60, target: [-4, 6, 0] } },
   side: { pos: [-2, 4.2, 31], target: [-2, 4.6, 0], fov: 32, orbit: 8, dolly: 3, rise: 0.4, m: { pos: [-2, 6, 34], target: [-2, 3.2, 0], fov: 46 } },

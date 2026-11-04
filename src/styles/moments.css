@@ -10,6 +10,7 @@ main {
 .moment {
   position: relative;
   height: calc(var(--len, 200) * 1vh);
+  overflow-x: clip; /* scrims may extend sideways; never widen the page */
 }
 .moment__inner {
   position: sticky;
@@ -380,7 +381,7 @@ main {
     font-size: 0.84rem;
     line-height: 1.4;
   }
-  .points li span > :not(b) {
+  .points__desc {
     display: none;
   }
   .points__icon {
@@ -462,6 +463,15 @@ main {
   .moment__panel .panel {
     zoom: 0.9;
   }
+}
+
+/* reduced motion: both fragment steps are shown, stacked */
+.reduced-motion .moment--fragment .moment__inner {
+  align-content: end;
+  gap: 40px;
+}
+.reduced-motion .copy--story {
+  grid-area: auto;
 }
 
 /* no JS: plain stacked page */

@@ -161,11 +161,14 @@ export async function boot() {
       const t = id && document.getElementById(id);
       if (!t) return;
       e.preventDefault();
+      if (id === 'main') {
+        t.focus();
+        return;
+      }
       const r = director.range(id);
       const y = r ? r[0] + (r[1] - r[0]) * 0.2 : t.offsetTop;
       if (lenis) lenis.scrollTo(y, { duration: 2 });
       else window.scrollTo(0, y);
-      if (id === 'main') t.focus({ preventScroll: true });
     });
   });
 

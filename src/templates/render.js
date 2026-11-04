@@ -202,7 +202,7 @@ function personaMoment({ id, m, index, href, persona, len = PERSONA_LEN }) {
   const points = (m.points || [])
     .map((p) =>
       Array.isArray(p)
-        ? `<li data-reveal>${icon('check', 'icon points__icon')}<span><b>${esc(p[0])}</b> ${esc(p[1])}</span></li>`
+        ? `<li data-reveal>${icon('check', 'icon points__icon')}<span><b>${esc(p[0])}</b> <span class="points__desc">${esc(p[1])}</span></span></li>`
         : `<li data-reveal>${icon('check', 'icon points__icon')}<span>${esc(p)}</span></li>`,
     )
     .join('');
